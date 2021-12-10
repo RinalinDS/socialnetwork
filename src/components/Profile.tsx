@@ -1,8 +1,8 @@
 import React from "react";
-
+import s from "./Profile.module.css"
 export const Profile = function () {
     return (
-        <div className="content">
+        <div className={s.content}>
             <div>
                 <img src="https://oceanservice.noaa.gov/facts/sea.jpg" alt="seas"/>
             </div>
@@ -14,10 +14,10 @@ export const Profile = function () {
                 <div>
                     new post
                 </div>
-                <div>
+                <div className={s.item}>
                     post 1
                 </div>
-                <div>
+                <div className={s.item}>
                     post 2
                 </div>
             </div>
