@@ -1,26 +1,23 @@
 import React from "react";
-import s from "./Profile.module.css"
-export const Profile = function () {
+import s from "./MyPost.module.css"
+import {Post} from "./Post/Post";
+
+
+export const MyPost = function () {
     return (
-        <div className={s.content}>
+        <div>
+
             <div>
-                <img src="https://oceanservice.noaa.gov/facts/sea.jpg" alt="seas"/>
+                My posts
             </div>
             <div>
-                ava + desc
+                <textarea></textarea>
+                <button>add post</button>
             </div>
-            <div>
-                my posts
-                <div>
-                    new post
-                </div>
-                <div className={s.item}>
-                    post 1
-                </div>
-                <div className={s.item}>
-                    post 2
-                </div>
-            </div>
+
+            <Post message="General Kenobi!" likecount={5}/>
+            <Post message ="Hello There"  likecount={10}/>
+
         </div>
     )
 }

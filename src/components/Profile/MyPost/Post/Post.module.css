@@ -1,7 +1,10 @@
-.content {
-    grid-area: c;
-    background-color: mediumpurple;
-}
+
 .item {
     color : yellow;
+}
+
+.item img {
+    width: 50px;
+    height: 50px;
+    border-radius: 30px;
 }
