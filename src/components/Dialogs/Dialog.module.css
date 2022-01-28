@@ -8,14 +8,17 @@
 .dialogsItems {
     padding: 10px;
 
-}
-.dialogsItems .active {
-    color: gold;
 
 }
+
 
 .dialog {
-
+    color: white;
+    text-decoration: none;
+}
+.dialogactive {
+    color: gold;
+    text-decoration: none;
 }
 
 
