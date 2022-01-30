@@ -1,21 +1,9 @@
-import App, {postsType, stateType} from "../App";
-import ReactDOM from "react-dom";
-import React from "react";
+import {postsType, stateType} from "../App";
 
 
-export const rerenderEntireTree = (state: stateType) => {
-    ReactDOM.render(
-        <App
-            state={state}
-            addPost={addPost}
-            updatePostMessage={updatePostMessage}
-            addMessage={addMessage}
-            updateMessageText={updateMessageText}
-        />
-        ,
-        document.getElementById('root')
-    );
 
+let rerenderEntireTree = (state:stateType) => {  // Выглядит как заглушка , на суппорт
+    console.log(state)
 }
 
 export const state = {
@@ -72,4 +60,8 @@ export const addMessage = () => {
 export const updateMessageText = (text: string) => {
     state.dialogsPage.newMessageText = text
     rerenderEntireTree(state)
+}
+
+export const subscribe = (observer: (state:stateType) => void) => {
+    rerenderEntireTree = observer
 }
