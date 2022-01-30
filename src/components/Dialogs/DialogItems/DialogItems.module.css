@@ -1,0 +1,17 @@
+
+.item img {
+    width: 20px;
+    height: 20px;
+    border-radius: 30px;
+}
+
+.dialog {
+    color: white;
+    text-decoration: none;
+}
+
+.dialogactive {
+    color: gold;
+    text-decoration: none;
+}
+

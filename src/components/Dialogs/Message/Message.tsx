@@ -1,11 +1,12 @@
-import s from "../Dialog.module.css";
+import s from "./Message.module.css";
 import React from "react";
 
 type MessagePropsType = {
     message: string
+    myMessage: boolean
 }
 export const Message = (props: MessagePropsType) => {
     return (
-        <div className={s.message}>{props.message}</div>
+        <div className={props.myMessage? s.left : s.right}>{props.message}</div>
     )
 }

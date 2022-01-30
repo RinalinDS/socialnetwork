@@ -1,8 +1,14 @@
 import React from "react";
 import {NavLink} from "react-router-dom";
 import s from "./Navbar.module.css"
+import {Friends} from "./Friends/Friends";
+import {FriendsType} from "../../App";
 
-export const Navbar = function () {
+type propsType = {
+    friends: Array<FriendsType>
+}
+
+export const Navbar = function (props: propsType) {
 
     const isLinkActive = (x: { isActive: boolean }) => x.isActive ? s.active_link : s.item
 
@@ -24,6 +30,10 @@ export const Navbar = function () {
             </div>
             <div>
                 <NavLink to={'/settings/'} className={isLinkActive}>Settings</NavLink>
+            </div>
+            <div>
+                <Friends friends={props.friends}/>
+
             </div>
         </nav>
     )
