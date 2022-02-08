@@ -2,33 +2,35 @@ import React from "react";
 import s from "./MyPost.module.css"
 import {Post} from "./Post/Post";
 import {postsType} from "../../../App";
+import {addPostAC, GeneralType, updatePostMessageAC} from "../../../redux/state";
+
+
 
 
 
 type propsType = {
     posts: Array<postsType>
-    addPost: () => void
     newTextMsg: string
-    updatePostMessage: (text: string) => void
+    dispatch: (action: GeneralType) => void
 }
 
 export const MyPost = function (props: propsType) {
-
 
     let postsElements = props.posts.map(m => <Post message={m.message} likecount={m.likescount}/>)
 
     let newElement = React.createRef<HTMLTextAreaElement>() // SUPPORT WHY CREATEREF ?
 
     const addPost = () => {
-        props.addPost()
-        props.updatePostMessage('')
+        props.dispatch(addPostAC())
+        props.dispatch(updatePostMessageAC(''))
     }
 
 
     const onChangeHandler = () => {
         if (newElement.current) {
             let text = newElement.current.value
-            props.updatePostMessage(text)
+           /* let action: GeneralType = { type: "UPDATE-POST-MESSAGE", text }*/
+           props.dispatch(updatePostMessageAC(text))
         }
     }
 
@@ -41,7 +43,7 @@ export const MyPost = function (props: propsType) {
             </div>
             <div>
                 <div>
-                    <textarea value={props.newTextMsg} ref={newElement} onChange={onChangeHandler}></textarea>
+                    <textarea value={props.newTextMsg} ref={newElement} onChange={onChangeHandler} />
                 </div>
                 <div>
                     <button onClick={addPost}>add post

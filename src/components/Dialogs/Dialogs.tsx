@@ -3,14 +3,15 @@ import s from './Dialog.module.css'
 import {DialogItems} from "./DialogItems/DialogItems";
 import {Message} from "./Message/Message";
 import {dialogsType, messageType} from "../../App";
+import {addMessageAC, GeneralType, updateMessageTextAC} from "../../redux/state";
 
 
 type propsType = {
     messages: Array<messageType>
     dialogs: Array<dialogsType>
-    addMessage: () => void
-    updateMessageText: (text: string) => void
+
     newMessageText: string
+    dispatch: (action: GeneralType) => void
 }
 
 export const Dialogs = (props: propsType) => {
@@ -22,15 +23,15 @@ export const Dialogs = (props: propsType) => {
     let newMessage = createRef<HTMLTextAreaElement>()
 
     const addMessage = () => {
-        props.addMessage()
-        props.updateMessageText('')
+        props.dispatch(addMessageAC())
+        props.dispatch(updateMessageTextAC(''))
 
     }
 
     const onChangeHandler = () => {
         if (newMessage.current) {
             let text = newMessage.current.value
-            props.updateMessageText(text)
+            props.dispatch(updateMessageTextAC(text))
         }
     }
 

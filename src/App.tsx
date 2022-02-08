@@ -8,7 +8,8 @@ import {BrowserRouter, Route, Routes} from "react-router-dom";
 import Settings from "./components/Settings/Settings";
 import {Music} from "./components/Music/Music";
 import {News} from "./components/News/News";
-import {updateMessageText, updatePostMessage} from "./redux/state";
+import {GeneralType} from "./redux/state";
+
 
 
 
@@ -48,10 +49,7 @@ export type stateType = {
 }
 type propsType = {
     state: stateType
-    addPost: () => void
-    updatePostMessage: (text: string) => void
-    updateMessageText: (text: string) => void
-    addMessage: () => void
+    dispatch: (action:GeneralType) => void
 
 }
 
@@ -65,15 +63,14 @@ function App(props: propsType) {
                     <Routes>
                         <Route path='/profile/*' element={<Profile
                             posts={props.state.profilePage.posts}
-                            addPost={props.addPost}
+                            dispatch={props.dispatch}
                             newTextMsg = {props.state.profilePage.newPostText}
-                            updatePostMessage={props.updatePostMessage}
+
                         />}/>
                         <Route path='/dialogs/*' element={<Dialogs
                             messages={props.state.dialogsPage.messages}
                             dialogs={props.state.dialogsPage.dialogs}
-                            addMessage={props.addMessage}
-                            updateMessageText={props.updateMessageText}
+                            dispatch={props.dispatch}
                             newMessageText={props.state.dialogsPage.newMessageText}
                         />}/>
                         <Route path='/news/*' element={<News/>}/>

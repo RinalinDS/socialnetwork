@@ -3,22 +3,25 @@ import s from "./Profile.module.css"
 import {MyPost} from "./MyPost/MyPost";
 import {ProfileInfo} from "./ProfileInfo/ProfileInfo";
 import {postsType} from "../../App";
-
+import {GeneralType} from "../../redux/state";
 
 
 type propsType = {
-    posts : Array<postsType>
-    addPost: () => void
+    posts: Array<postsType>
     newTextMsg: string
-    updatePostMessage: (text: string) => void
+    dispatch: (action: GeneralType) => void
+
 }
 
 export const Profile = function (props: propsType) {
     return (
         <div className={s.content}>
             <ProfileInfo/>
-            <MyPost posts={props.posts} addPost={props.addPost} newTextMsg={props.newTextMsg}
-                    updatePostMessage={props.updatePostMessage}
+            <MyPost
+                posts={props.posts}
+                newTextMsg={props.newTextMsg}
+                dispatch={props.dispatch}
+
             />
         </div>
     )
