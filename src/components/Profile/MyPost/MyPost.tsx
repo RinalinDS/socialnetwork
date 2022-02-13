@@ -1,37 +1,33 @@
-import React, {KeyboardEvent} from "react";
+import React, {ChangeEvent, KeyboardEvent} from "react";
 import s from "./MyPost.module.css"
 import {Post} from "./Post/Post";
 import {postsType} from "../../../App";
-import {GeneralType} from "../../../redux/store";
-import {addPostAC, updatePostMessageAC} from "../../../redux/profileReducer";
-
-
-
 
 
 type propsType = {
     posts: Array<postsType>
     newTextMsg: string
-    dispatch: (action: GeneralType) => void
+    addPost: () => void
+    updatePostMsg: (text: string) => void
+    likeClickHandler: (id: number, likescount: number) => void
+
 
 }
 
 export const MyPost = function (props: propsType) {
 
-    let postsElements = props.posts.map(m => <Post dispatch={props.dispatch} id={m.id} message={m.message} likecount={m.likescount}/>)
-
-    let newElement = React.createRef<HTMLTextAreaElement>() // SUPPORT WHY CREATEREF ?
+    let postsElements = props.posts.map(m => <Post likeClickHandler={props.likeClickHandler} id={m.id}
+                                                   message={m.message} likecount={m.likescount}/>)
 
     const addPost = () => {
-        props.dispatch(addPostAC())
+        props.addPost()
     }
 
 
-    const onChangeHandler = () => {
-        if (newElement.current) {
-            let text = newElement.current.value
-           /* let action: GeneralType = { type: "UPDATE-POST-MESSAGE", text }*/
-           props.dispatch(updatePostMessageAC(text))
+    const onChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
+        if (e.currentTarget) {
+            let text = e.currentTarget.value
+            props.updatePostMsg(text)
         }
     }
     const onKeyPressHandler = (e: KeyboardEvent<HTMLTextAreaElement>) => {
@@ -45,13 +41,12 @@ export const MyPost = function (props: propsType) {
 
     return (
         <div className={s.postsBlock}>
-
             <div>
                 My posts
             </div>
             <div>
                 <div>
-                    <textarea value={props.newTextMsg} onKeyPress={onKeyPressHandler} ref={newElement} onChange={onChangeHandler} />
+                    <textarea value={props.newTextMsg} onKeyPress={onKeyPressHandler} onChange={onChangeHandler}/>
                 </div>
                 <div>
                     <button onClick={addPost}>add post
@@ -61,7 +56,6 @@ export const MyPost = function (props: propsType) {
             <div className={s.posts}>
                 {postsElements}
             </div>
-
         </div>
     )
 }

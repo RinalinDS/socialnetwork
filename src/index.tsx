@@ -1,17 +1,20 @@
 import React from 'react';
 import reportWebVitals from './reportWebVitals';
-import {store} from "./redux/store";
+import {store} from "./redux/redux-store";
 import App, {stateType} from "./App";
 import ReactDOM from "react-dom";
+import {Provider} from "react-redux";
 
 
 
 export const rerenderEntireTree = (state: stateType) => {
     ReactDOM.render(
+        <Provider store={store}>
         <App
             state={state}
             dispatch={store.dispatch.bind(store)}
         />
+        </Provider>
         ,
         document.getElementById('root')
     );
@@ -20,7 +23,10 @@ export const rerenderEntireTree = (state: stateType) => {
 
 rerenderEntireTree(store.getState())
 
-store.subscribe(rerenderEntireTree)
+store.subscribe(()=> {
+    let state = store.getState()
+    rerenderEntireTree(state)
+})
 
 
 // If you want to start measuring performance in your app, pass a function

@@ -3,12 +3,12 @@ import './App.css';
 import {Header} from "./components/Header/Header";
 import {Navbar} from "./components/Navbar/Navbar";
 import {Profile} from "./components/Profile/Profile";
-import {Dialogs} from "./components/Dialogs/Dialogs";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import Settings from "./components/Settings/Settings";
 import {Music} from "./components/Music/Music";
 import {News} from "./components/News/News";
 import {GeneralType} from "./redux/store";
+import {DialogsContainer} from "./components/Dialogs/DialogsContainer";
 
 
 
@@ -60,16 +60,10 @@ function App(props: propsType) {
                 <div className={'maincontent'}>
                     <Routes>
                         <Route path='/profile/*' element={<Profile
-                            posts={props.state.profilePage.posts}
                             dispatch={props.dispatch}
-                            newTextMsg = {props.state.profilePage.newPostText}
-
                         />}/>
-                        <Route path='/dialogs/*' element={<Dialogs
-                            messages={props.state.dialogsPage.messages}
-                            dialogs={props.state.dialogsPage.dialogs}
+                        <Route path='/dialogs/*' element={<DialogsContainer
                             dispatch={props.dispatch}
-                            newMessageText={props.state.dialogsPage.newMessageText}
                         />}/>
                         <Route path='/news/*' element={<News/>}/>
                         <Route path='/music/*' element={<Music/>}/>

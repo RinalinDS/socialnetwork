@@ -1,7 +1,7 @@
-import {dialogsType, messageType, postsType} from "../App";
+import {dialogsType, messageType} from "../App";
 import {GeneralType} from "./store";
 
-type dialogsReducerStateType = {
+export type dialogsReducerStateType = {
         dialogs: Array<dialogsType>
         messages: Array<messageType>
         newMessageText: string
@@ -17,9 +17,24 @@ export type addLikeCountType = {
     likescount: number
 }
 
+const initialState:dialogsReducerStateType = {
+    dialogs: [
+        {id: 1, name: 'Lesha', avatar: "https://shutnikov.club/wp-content/uploads/2020/01/1785179_thumb.png"},
+        {id: 2, name: 'Sasha', avatar: "https://shutnikov.club/wp-content/uploads/2020/01/1785179_thumb.png"},
+        {id: 3, name: 'Pasha', avatar: "https://shutnikov.club/wp-content/uploads/2020/01/1785179_thumb.png"},
+        {id: 4, name: 'Masha', avatar: "https://shutnikov.club/wp-content/uploads/2020/01/1785179_thumb.png"},
+        {id: 5, name: 'Dasha', avatar: "https://shutnikov.club/wp-content/uploads/2020/01/1785179_thumb.png"},
+    ],
+    messages: [
+        {id: 1, message: 'Hello', myMessage: true},
+        {id: 2, message: 'How r u today?', myMessage: false},
+        {id: 3, message: 'Bad boys what you gonna do ?', myMessage: true},
+        {id: 4, message: 'When we come for you?', myMessage: false},
+    ],
+    newMessageText: ''
+}
 
-
-export const dialogsReducer = (state: dialogsReducerStateType, action: GeneralType):dialogsReducerStateType => {
+export const dialogsReducer = (state: dialogsReducerStateType =initialState , action: GeneralType):dialogsReducerStateType => {
     switch (action.type) {
         case "ADD-MESSAGE":
             state.messages.push({

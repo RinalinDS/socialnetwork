@@ -1,4 +1,4 @@
-import {postsType, stateType} from "../App";
+import {stateType} from "../App";
 import {addMessageMType, addPostType, profileReducer, updatePostMessageType} from "./profileReducer";
 import {addLikeCountType, dialogsReducer, updateMessageTextType} from "./dialogsReducer";
 import {sidebarReducer} from "./sidebarReducer";
@@ -9,6 +9,7 @@ export type GeneralType =
     | addMessageMType
     | updateMessageTextType
     | addLikeCountType
+
 
 
 

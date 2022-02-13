@@ -1,9 +1,9 @@
 import {postsType} from "../App";
 import {GeneralType} from "./store";
 
-type profileReducerStateType = {
-        posts: Array<postsType>
-        newPostText: string
+export type profileReducerStateType = {
+    posts: Array<postsType>
+    newPostText: string
 }
 
 export type addPostType = {
@@ -17,7 +17,16 @@ export type addMessageMType = {
     type: "ADD-MESSAGE"
 }
 
-export const profileReducer = (state: profileReducerStateType, action: GeneralType):profileReducerStateType => {
+const initialState: profileReducerStateType = {
+    posts: [
+        {id: 1, message: "General Kenobi!", likescount: 7},
+        {id: 2, message: "Hello There", likescount: 10},
+        {id: 3, message: "YOU WERE MY BROTHER ANAKIN", likescount: 141},
+    ],
+    newPostText: ""
+}
+
+export const profileReducer = (state: profileReducerStateType = initialState, action: GeneralType): profileReducerStateType => {
     switch (action.type) {
         case ADD_POST:
             let newPost: postsType = {id: 4, message: state.newPostText, likescount: 0}
@@ -28,12 +37,16 @@ export const profileReducer = (state: profileReducerStateType, action: GeneralTy
             state.newPostText = action.text
             return state
         case ADD_LIKE_COUNT:
-            return {...state, posts: state.posts.map((m:postsType) => m.id === action.id ? {...m , likescount: action.likescount + 1} : m)}
+            return {...state,
+                posts: state.posts.map((m: postsType) => m.id === action.id ? {
+                    ...m,
+                    likescount: action.likescount + 1
+                } : m)
+            }
         default:
             return state
     }
 }
-
 
 
 const ADD_POST = "ADD-POST"
