@@ -1,9 +1,12 @@
-import React, {createRef} from 'react';
+import React, {ChangeEvent, KeyboardEvent} from 'react';
 import s from './Dialog.module.css'
 import {DialogItems} from "./DialogItems/DialogItems";
 import {Message} from "./Message/Message";
 import {dialogsType, messageType} from "../../App";
-import {addMessageAC, GeneralType, updateMessageTextAC} from "../../redux/state";
+import  {GeneralType} from "../../redux/store";
+import {addMessageAC, updateMessageTextAC} from "../../redux/dialogsReducer";
+
+
 
 
 type propsType = {
@@ -20,19 +23,24 @@ export const Dialogs = (props: propsType) => {
     let messageElements = props.messages.map(m => <Message message={m.message} myMessage={m.myMessage}/>)
     let dialogsElements = props.dialogs.map(m => <DialogItems name={m.name} id={m.id} avatar={m.avatar}/>)
 
-    let newMessage = createRef<HTMLTextAreaElement>()
+
 
     const addMessage = () => {
         props.dispatch(addMessageAC())
-        props.dispatch(updateMessageTextAC(''))
 
     }
 
-    const onChangeHandler = () => {
-        if (newMessage.current) {
-            let text = newMessage.current.value
+    const onChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
+        if (e.currentTarget) {
+            let text = e.currentTarget.value
             props.dispatch(updateMessageTextAC(text))
         }
+    }
+    const onKeyPressHandler = (e: KeyboardEvent<HTMLTextAreaElement>) => {
+        if (e.code === "Enter") {
+            addMessage()
+        }
+
     }
 
     return (
@@ -44,7 +52,7 @@ export const Dialogs = (props: propsType) => {
             <div className={s.messages}>
                 {messageElements}
                 <div className={s.textarea}>
-                    <textarea value={props.newMessageText} ref={newMessage} onChange={onChangeHandler}> </textarea>
+                    <textarea value={props.newMessageText} onKeyPress={onKeyPressHandler} onChange={onChangeHandler}> </textarea>
                     <div>
                         <button onClick={addMessage}>add message</button>
                     </div>

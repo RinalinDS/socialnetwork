@@ -1,8 +1,9 @@
-import React from "react";
+import React, {KeyboardEvent} from "react";
 import s from "./MyPost.module.css"
 import {Post} from "./Post/Post";
 import {postsType} from "../../../App";
-import {addPostAC, GeneralType, updatePostMessageAC} from "../../../redux/state";
+import {GeneralType} from "../../../redux/store";
+import {addPostAC, updatePostMessageAC} from "../../../redux/profileReducer";
 
 
 
@@ -12,17 +13,17 @@ type propsType = {
     posts: Array<postsType>
     newTextMsg: string
     dispatch: (action: GeneralType) => void
+
 }
 
 export const MyPost = function (props: propsType) {
 
-    let postsElements = props.posts.map(m => <Post message={m.message} likecount={m.likescount}/>)
+    let postsElements = props.posts.map(m => <Post dispatch={props.dispatch} id={m.id} message={m.message} likecount={m.likescount}/>)
 
     let newElement = React.createRef<HTMLTextAreaElement>() // SUPPORT WHY CREATEREF ?
 
     const addPost = () => {
         props.dispatch(addPostAC())
-        props.dispatch(updatePostMessageAC(''))
     }
 
 
@@ -32,6 +33,13 @@ export const MyPost = function (props: propsType) {
            /* let action: GeneralType = { type: "UPDATE-POST-MESSAGE", text }*/
            props.dispatch(updatePostMessageAC(text))
         }
+    }
+    const onKeyPressHandler = (e: KeyboardEvent<HTMLTextAreaElement>) => {
+        if (e.code === "Enter") {
+            e.preventDefault() // чтобы не переходило на следующую строку и не бесило меня возвращать обратно
+            addPost()
+        }
+
     }
 
 
@@ -43,7 +51,7 @@ export const MyPost = function (props: propsType) {
             </div>
             <div>
                 <div>
-                    <textarea value={props.newTextMsg} ref={newElement} onChange={onChangeHandler} />
+                    <textarea value={props.newTextMsg} onKeyPress={onKeyPressHandler} ref={newElement} onChange={onChangeHandler} />
                 </div>
                 <div>
                     <button onClick={addPost}>add post

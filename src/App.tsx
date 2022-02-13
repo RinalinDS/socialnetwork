@@ -8,7 +8,7 @@ import {BrowserRouter, Route, Routes} from "react-router-dom";
 import Settings from "./components/Settings/Settings";
 import {Music} from "./components/Music/Music";
 import {News} from "./components/News/News";
-import {GeneralType} from "./redux/state";
+import {GeneralType} from "./redux/store";
 
 
 
@@ -18,13 +18,11 @@ export type postsType = {
     message: string
     likescount: number
 }
-
 export type dialogsType = {
     id: number
     name: string
     avatar: string
 }
-
 export type messageType = {
     id: number
     message: string

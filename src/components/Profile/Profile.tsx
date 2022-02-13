@@ -3,7 +3,7 @@ import s from "./Profile.module.css"
 import {MyPost} from "./MyPost/MyPost";
 import {ProfileInfo} from "./ProfileInfo/ProfileInfo";
 import {postsType} from "../../App";
-import {GeneralType} from "../../redux/state";
+import {GeneralType} from "../../redux/store";
 
 
 type propsType = {

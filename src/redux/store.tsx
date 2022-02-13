@@ -1,43 +1,16 @@
 import {postsType, stateType} from "../App";
+import {addMessageMType, addPostType, profileReducer, updatePostMessageType} from "./profileReducer";
+import {addLikeCountType, dialogsReducer, updateMessageTextType} from "./dialogsReducer";
+import {sidebarReducer} from "./sidebarReducer";
 
-export type GeneralType = addPostType | updatePostMessageType| addMessageMType | updateMessageTextType
+export type GeneralType =
+    addPostType
+    | updatePostMessageType
+    | addMessageMType
+    | updateMessageTextType
+    | addLikeCountType
 
-type addPostType = {
-    type: "ADD-POST"
-}
-type updatePostMessageType = {
-    type: "UPDATE-POST-MESSAGE"
-    text: string
-}
-type addMessageMType = {
-    type: "ADD-MESSAGE"
-}
-type updateMessageTextType = {
-    type: "UPDATE-MESSAGE-TEXT"
-    text: string
-}
-export const addPostAC = ():GeneralType => {
-    return {
-        type : "ADD-POST",
-    }
-}
-export const updatePostMessageAC = (text: string):GeneralType => {
-    return {
-        type : "UPDATE-POST-MESSAGE",
-        text
-    }
-}
-export const addMessageAC = (): GeneralType => {
-    return {
-        type: "ADD-MESSAGE",
-    }
-}
-export const updateMessageTextAC = (text: string): GeneralType => {
-    return {
-        type: "UPDATE-MESSAGE-TEXT",
-        text
-    }
-}
+
 
 export let store = {
     _state: {
@@ -83,27 +56,11 @@ export let store = {
         this._callSubscriber = observer
     },
     dispatch(action: GeneralType) {
-       if( action.type === "ADD-POST") {
-           let newPost: postsType = {id: 4, message: this._state.profilePage.newPostText, likescount: 0}
-           this._state.profilePage.posts.push(newPost)
-           this._callSubscriber(this._state)
-       }  else if( action.type === "UPDATE-POST-MESSAGE") {
-           this._state.profilePage.newPostText = action.text
-           this._callSubscriber(this._state)
-       } else if( action.type === "ADD-MESSAGE") {
-           this._state.dialogsPage.messages.push({
-               id: 5,
-               message: this._state.dialogsPage.newMessageText,
-               myMessage: Math.random() < 0.5
-           })
-           this._callSubscriber(this._state)
-       } else if (action.type === "UPDATE-MESSAGE-TEXT") {
-           this._state.dialogsPage.newMessageText = action.text
-           this._callSubscriber(this._state)
-       }
-
-    },
-
+        this._state.profilePage = profileReducer(this._state.profilePage, action)
+        this._state.dialogsPage = dialogsReducer(this._state.dialogsPage, action)
+        this._state.friends = sidebarReducer(this._state.friends, action)
+        this._callSubscriber(this._state)
+    }
 
 
 }
