@@ -1,5 +1,4 @@
 import React from "react";
-import {GeneralType} from "../../../redux/store";
 import {
     addLikeCountAC,
     addPostAC,
@@ -8,30 +7,28 @@ import {
 } from "../../../redux/profileReducer";
 import {MyPost} from "./MyPost";
 import {AppRootStateType} from "../../../redux/redux-store";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 
 
-type propsType = {
-    dispatch: (action: GeneralType) => void
-}
 
-export const MyPostContainer = function (props: propsType) {
+export const MyPostContainer = function () {
 
     const state = useSelector<AppRootStateType, profileReducerStateType>(state => state.profilePage)
+    const dispatch = useDispatch()
 
 
     const addPost = () => {
-        props.dispatch(addPostAC())
+        dispatch(addPostAC())
     }
 
 
     const onChangeHandler = (text: string) => {
         /* let action: GeneralType = { type: "UPDATE-POST-MESSAGE", text }*/
-        props.dispatch(updatePostMessageAC(text))
+        dispatch(updatePostMessageAC(text))
     }
 
     const onClickAddLikeHandler = (id: number, likescount: number) => {
-        props.dispatch(addLikeCountAC(id, likescount))
+        dispatch(addLikeCountAC(id, likescount))
     }
 
     return (

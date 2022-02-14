@@ -7,8 +7,9 @@ import {BrowserRouter, Route, Routes} from "react-router-dom";
 import Settings from "./components/Settings/Settings";
 import {Music} from "./components/Music/Music";
 import {News} from "./components/News/News";
-import {GeneralType} from "./redux/store";
 import {DialogsContainer} from "./components/Dialogs/DialogsContainer";
+import {useSelector} from "react-redux";
+import {AppRootStateType} from "./redux/redux-store";
 
 
 
@@ -45,26 +46,20 @@ export type stateType = {
     }
     friends: Array<FriendsType>
 }
-type propsType = {
-    state: stateType
-    dispatch: (action:GeneralType) => void
 
-}
 
-function App(props: propsType) {
+function App() {
+    const friendsState = useSelector<AppRootStateType, Array<FriendsType>>(state => state.friends)
+
     return (
         <BrowserRouter>
             <div className="app-wrapper">
                 <Header/>
-                <Navbar friends={props.state.friends}/>
+                <Navbar friends={friendsState}/>
                 <div className={'maincontent'}>
                     <Routes>
-                        <Route path='/profile/*' element={<Profile
-                            dispatch={props.dispatch}
-                        />}/>
-                        <Route path='/dialogs/*' element={<DialogsContainer
-                            dispatch={props.dispatch}
-                        />}/>
+                        <Route path='/profile/*' element={<Profile />}/>
+                        <Route path='/dialogs/*' element={<DialogsContainer />}/>
                         <Route path='/news/*' element={<News/>}/>
                         <Route path='/music/*' element={<Music/>}/>
                         <Route path='/settings/*' element={<Settings/>}/>

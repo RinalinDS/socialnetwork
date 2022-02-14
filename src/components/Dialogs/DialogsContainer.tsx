@@ -1,37 +1,27 @@
-import React from 'react';
 import {GeneralType} from "../../redux/store";
-import {addMessageAC, dialogsReducerStateType, updateMessageTextAC} from "../../redux/dialogsReducer";
-import {useSelector} from "react-redux";
+import {addMessageAC, updateMessageTextAC} from "../../redux/dialogsReducer";
+import {connect} from "react-redux";
 import {AppRootStateType} from "../../redux/redux-store";
 import {Dialogs} from "./Dialogs";
 
 
-type propsType = {
-    dispatch: (action: GeneralType) => void
+const mapStateToProps = (state: AppRootStateType) => {
+    return {
+        dialogs: state.dialogsPage.dialogs,
+        messages: state.dialogsPage.messages,
+        newMessageText: state.dialogsPage.newMessageText,
+    }
 }
 
-export const DialogsContainer = ({dispatch}: propsType) => {
-
-    const state = useSelector<AppRootStateType, dialogsReducerStateType>(state => state.dialogsPage)
-
-
-    const addMessage = () => {
-        dispatch(addMessageAC())
+const mapDispatchToProps = (dispatch:(action: GeneralType)=> void) => {
+    return {
+        addMessage: () => {
+            dispatch(addMessageAC())
+        },
+        updateMessageText: (text: string) => {
+            dispatch(updateMessageTextAC(text))
+        }
     }
-
-    const updateMessageText = (text: string) => {
-        dispatch(updateMessageTextAC(text))
-    }
-
-
-    return (
-        <Dialogs
-                 dialogs={state.dialogs}
-                 messages={state.messages}
-                 newMessageText={state.newMessageText}
-                 addMessage={addMessage}
-                 updateMessageText={updateMessageText}
-        />
-
-    )
 }
+
+export const DialogsContainer = connect(mapStateToProps, mapDispatchToProps)(Dialogs)
