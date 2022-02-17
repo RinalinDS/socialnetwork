@@ -10,6 +10,7 @@ import {News} from "./components/News/News";
 import {DialogsContainer} from "./components/Dialogs/DialogsContainer";
 import {useSelector} from "react-redux";
 import {AppRootStateType} from "./redux/redux-store";
+import {UsersContainer} from "./components/Users/UsersContainer";
 
 
 
@@ -60,6 +61,7 @@ function App() {
                     <Routes>
                         <Route path='/profile/*' element={<Profile />}/>
                         <Route path='/dialogs/*' element={<DialogsContainer />}/>
+                        <Route path='/users/*' element={<UsersContainer />}/>
                         <Route path='/news/*' element={<News/>}/>
                         <Route path='/music/*' element={<Music/>}/>
                         <Route path='/settings/*' element={<Settings/>}/>
