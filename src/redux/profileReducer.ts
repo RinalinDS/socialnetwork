@@ -30,14 +30,12 @@ export const profileReducer = (state: profileReducerStateType = initialState, ac
     switch (action.type) {
         case ADD_POST:
             let newPost: postsType = {id: 4, message: state.newPostText, likescount: 0}
-            state.posts.push(newPost)
-            state.newPostText = ''
-            return state
+            return {...state, posts: [...state.posts, newPost], newPostText: ''}
         case UPDATE_POST_MESSAGE:
-            state.newPostText = action.text
-            return state
+            return {...state, newPostText: action.text}
         case ADD_LIKE_COUNT:
-            return {...state,
+            return {
+                ...state,
                 posts: state.posts.map((m: postsType) => m.id === action.id ? {
                     ...m,
                     likescount: action.likescount + 1

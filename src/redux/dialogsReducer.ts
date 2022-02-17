@@ -2,9 +2,9 @@ import {dialogsType, messageType} from "../App";
 import {GeneralType} from "./store";
 
 export type dialogsReducerStateType = {
-        dialogs: Array<dialogsType>
-        messages: Array<messageType>
-        newMessageText: string
+    dialogs: Array<dialogsType>
+    messages: Array<messageType>
+    newMessageText: string
 }
 
 export type updateMessageTextType = {
@@ -17,7 +17,7 @@ export type addLikeCountType = {
     likescount: number
 }
 
-const initialState:dialogsReducerStateType = {
+const initialState: dialogsReducerStateType = {
     dialogs: [
         {id: 1, name: 'Lesha', avatar: "https://shutnikov.club/wp-content/uploads/2020/01/1785179_thumb.png"},
         {id: 2, name: 'Sasha', avatar: "https://shutnikov.club/wp-content/uploads/2020/01/1785179_thumb.png"},
@@ -34,12 +34,11 @@ const initialState:dialogsReducerStateType = {
     newMessageText: ''
 }
 
-export const dialogsReducer = (state: dialogsReducerStateType =initialState , action: GeneralType):dialogsReducerStateType => {
+export const dialogsReducer = (state: dialogsReducerStateType = initialState, action: GeneralType): dialogsReducerStateType => {
     switch (action.type) {
         case "ADD-MESSAGE":
-            const newMessage = {id: 5, message: state.newMessageText,myMessage: Math.random() < 0.5}
-            state.newMessageText = ''
-            return {...state, messages: [...state.messages, newMessage]}
+            const newMessage = {id: 5, message: state.newMessageText, myMessage: Math.random() < 0.5}
+            return {...state, messages: [...state.messages, newMessage], newMessageText: ''}
         case "UPDATE-MESSAGE-TEXT":
             return {...state, newMessageText: action.text}
         default:
