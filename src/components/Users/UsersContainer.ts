@@ -4,12 +4,23 @@ import {AppRootStateType} from "../../redux/redux-store";
 import {setUsersAC, toggleFollowUserAC, userReducerActionType, UserType} from "../../redux/userReducer";
 
 
-function mapStateToProps(state: AppRootStateType) {
+
+export type mapStateToPropsType = {
+    users: Array<UserType>
+}
+export type mapDispatchToPropsType = {
+    toggleFollowUser: (id: number) => void
+    setUsers: (users: UserType[]) => void
+}
+export type UsersPropsType = mapStateToPropsType & mapDispatchToPropsType
+
+function mapStateToProps(state: AppRootStateType):mapStateToPropsType {
     return {
         users: state.usersPage.users
     }
 
 }
+
 
 function mapDispatchToProps(dispatch: (action: userReducerActionType) => void) {
     return {

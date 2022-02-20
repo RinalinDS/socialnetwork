@@ -1,4 +1,4 @@
-export type UserType = {
+/*export type UserType = {
     id: number
     followed: boolean
     fullName: string
@@ -7,6 +7,17 @@ export type UserType = {
     location: {
         city: string
         country: string
+    }
+}*/
+
+export type UserType = {
+    id: number
+    followed: boolean
+    name: string
+    status: string
+    photos: {
+        small: string | undefined
+        large: string | undefined
     }
 }
 
@@ -45,7 +56,7 @@ export type toggleFollowUserACType = {
 
 export const toggleFollowUserAC = (id: number):toggleFollowUserACType => {
     return {
-        type: 'TOGGLE-FOLLOW-USER',
+        type: TOGGLE_FOLLOW_USER,
         payload: {
             id
         }
@@ -62,7 +73,7 @@ export type setUsersACType = {
 
 export const setUsersAC = (users: Array<UserType>):setUsersACType => {
     return {
-        type: 'SET-USERS',
+        type: SET_USERS,
         payload :{
             users
         }

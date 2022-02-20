@@ -23,6 +23,9 @@ export const Navbar = function (props: propsType) {
                 <NavLink to={"/dialogs/"} className={isLinkActive}>Messages</NavLink>
             </div>
             <div>
+                <NavLink to={'/users/'} className={isLinkActive}>Users</NavLink>
+            </div>
+            <div>
                 <NavLink to={'/news/'} className={isLinkActive}>News</NavLink>
             </div>
             <div>
@@ -31,7 +34,9 @@ export const Navbar = function (props: propsType) {
             <div>
                 <NavLink to={'/settings/'} className={isLinkActive}>Settings</NavLink>
             </div>
+
             <div>
+
                 <Friends friends={props.friends}/>
 
             </div>

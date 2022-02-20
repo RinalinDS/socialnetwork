@@ -1,64 +1,52 @@
+import axios from 'axios';
 import React from 'react';
-import {UserType} from "../../redux/userReducer";
 import s from './Users.module.css'
+import userPhoto from './../../assets/images/avatar2.png'
+import {UserType} from "../../redux/userReducer";
 
-type propsType = {
+interface Props {
     users: Array<UserType>
     toggleFollowUser: (id: number) => void
-    setUsers: (users: Array<UserType>) => void
+    setUsers: (users: UserType[]) => void
 }
 
-const Users = (props: propsType) => {
-    if (props.users.length === 0) {
-        props.setUsers([
-            {
-                id: 1,
-                status: 'ya ebu',
-                followed: true,
-                avatar: 'https://memax.club/wp-content/uploads/2019/05/Kartinki_bez_lica_1_29050439.jpg',
-                fullName: "Denis",
-                location: {country: 'Ukraine', city: 'Kiev'}
-            },
-            {
-                id: 2,
-                status: 'ali babu',
-                followed: false,
-                avatar: 'https://memax.club/wp-content/uploads/2019/05/Kartinki_bez_lica_1_29050439.jpg',
-                fullName: "Jora",
-                location: {country: 'Belarus', city: 'Minsk'}
-            },
-            {
-                id: 3,
-                status: 'ya ebu',
-                followed: true,
-                avatar: 'https://memax.club/wp-content/uploads/2019/05/Kartinki_bez_lica_1_29050439.jpg',
-                fullName: "Valera",
-                location: {country: 'Russia', city: 'Spb'}
-            }
-        ])
+class Users extends React.Component<Props> {
+    componentDidMount() {
+        axios.get('https://social-network.samuraijs.com/api/1.0/users')
+            .then(res => {
+                this.props.setUsers(res.data.items)
+            })
     }
-    return (
+    render() {
+        return (
         <div>
-            USERS :
-            {props.users.map(m => {
+
+            <p>USERS :</p>
+            {this.props.users.map(m => {
                 return (
                     <div key={m.id}>
-                        <img src={m.avatar} alt={'avatar'} className={s.photo}/>
+
+
                         <div>
-                            <button
-                                onClick={() => props.toggleFollowUser(m.id)}>{m.followed ? "Unfollow" : "Follow"}
-                            </button>
+                            <img src={m.photos.small ? m.photos.small : userPhoto} alt={'avatar'} className={s.photo}/>
                         </div>
-                        <div>{m.fullName}</div>
-                        <div>{m.location.city}</div>
-                        <div>{m.location.country}</div>
+                        <button
+                            onClick={() => this.props.toggleFollowUser(m.id)}>{m.followed ? "Unfollow" : "Follow"}
+                        </button>
+                        <div>{m.name}</div>
+
+
+                        <div>{'city'}</div>
+                        <div>{'location'}</div>
                         <div>{m.status}</div>
 
                     </div>
                 )
             })}
         </div>
-    );
-};
+        )}
+
+}
+
 
 export default Users;
