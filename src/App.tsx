@@ -10,7 +10,7 @@ import {News} from "./components/News/News";
 import {DialogsContainer} from "./components/Dialogs/DialogsContainer";
 import {useSelector} from "react-redux";
 import {AppRootStateType} from "./redux/redux-store";
-import {UsersContainer} from "./components/Users/UsersContainer";
+import UsersContainer from "./components/Users/UsersContainer";
 
 
 
