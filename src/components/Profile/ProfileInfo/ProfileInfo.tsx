@@ -8,7 +8,7 @@ type ProfileInfoPropsType = {
 
 }
 export const ProfileInfo = (props: ProfileInfoPropsType) => {
-    if (!props.profile) {
+    if (!props.profile.photos) {
         return <Preloader/>
     }
     return (
@@ -18,7 +18,9 @@ export const ProfileInfo = (props: ProfileInfoPropsType) => {
             </div>
             <div className={s.block}>
                 <img src={props.profile.photos.small ? props.profile.photos.small : ''} alt={'preloader'}/>
-                ava + desc
+                <div> {props.profile.fullName} </div>
+                <div> {props.profile.contacts.github}</div>
+
             </div>
         </div>
     )
