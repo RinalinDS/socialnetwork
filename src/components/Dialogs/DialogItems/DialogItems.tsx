@@ -9,12 +9,12 @@ type DialogItemspropsType = {
 }
 export const DialogItems = ({name, id, ...props}: DialogItemspropsType) => {
 
-    const classNameForNavLinkInDialogs = (x: { isActive: boolean }) => x.isActive ? s.dialogactive : s.dialog
+    // const classNameForNavLinkInDialogs = (x: { isActive: boolean }) => x.isActive ? s.dialogactive : s.dialog // for react-router-dom 6 clasName in navLink
 
     return (
         <div className={s.item}>
             <img src={props.avatar} alt='avatar' />
-            <NavLink className={classNameForNavLinkInDialogs} to={'/dialogs/' + id}>{name}</NavLink>
+            <NavLink activeClassName={s.dialogactive}  className={s.dialog} to={'/dialogs/' + id}>{name}</NavLink>
         </div>
     )
 }

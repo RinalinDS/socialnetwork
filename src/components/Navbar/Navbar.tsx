@@ -10,29 +10,29 @@ type propsType = {
 
 export const Navbar = function (props: propsType) {
 
-    const isLinkActive = (x: { isActive: boolean }) => x.isActive ? s.active_link : s.item
+    /*const isLinkActive = (x: { isActive: boolean }) => x.isActive ? s.active_link : s.item*/
 
 
     return (
         <nav className={s.nav}>
             <div>
-                <NavLink to={"/profile/"} className={isLinkActive}>Profile</NavLink>
+                <NavLink to={"/profile/"} activeClassName={s.active_link}>Profile</NavLink>
 
             </div>
             <div>
-                <NavLink to={"/dialogs/"} className={isLinkActive}>Messages</NavLink>
+                <NavLink to={"/dialogs/"} activeClassName={s.active_link}>Messages</NavLink>
             </div>
             <div>
-                <NavLink to={'/users/'} className={isLinkActive}>Users</NavLink>
+                <NavLink to={'/users/'} activeClassName={s.active_link}>Users</NavLink>
             </div>
             <div>
-                <NavLink to={'/news/'} className={isLinkActive}>News</NavLink>
+                <NavLink to={'/news/'} activeClassName={s.active_link}>News</NavLink>
             </div>
             <div>
-                <NavLink to={'/music/'} className={isLinkActive}> Music</NavLink>
+                <NavLink to={'/music/'} activeClassName={s.active_link}> Music</NavLink>
             </div>
             <div>
-                <NavLink to={'/settings/'} className={isLinkActive}>Settings</NavLink>
+                <NavLink to={'/settings/'} activeClassName={s.active_link}>Settings</NavLink>
             </div>
 
             <div>

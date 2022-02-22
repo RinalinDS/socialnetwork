@@ -16,15 +16,15 @@ interface PropsType {
 
 
 export const Users = (props: PropsType) => {
-    let pagesCount = Math.ceil(props.totalUsersCount / props.pageSize)/300
+    let pagesCount = Math.ceil(props.totalUsersCount / props.pageSize) / 100
     let pages = []
-    for (let i = 1; i <= pagesCount ; i++) {
+    for (let i = 1; i <= pagesCount; i++) {
         pages.push(i)
     }
     return (
         <div>
             <div>{pages.map(m => <span className={props.currentPage === m ? s.currentPage : ''}
-                                       onClick={()=> props.onPageChanged(m)}
+                                       onClick={() => props.onPageChanged(m)}
             >{m} </span>)}</div>
 
             <p>USERS :</p>
@@ -34,8 +34,9 @@ export const Users = (props: PropsType) => {
 
 
                         <div>
-                           <NavLink to={'/profile/' + "" +m.id}> <img src={m.photos.small ? m.photos.small : userPhoto} alt={'avatar'}
-                                 className={s.photo}/></NavLink>
+                            <NavLink to={'/profile' + m.id}> <img
+                                src={m.photos.small ? m.photos.small : userPhoto} alt={'avatar'}
+                                className={s.photo}/></NavLink>
                         </div>
                         <button
                             onClick={() => props.toggleFollowUser(m.id)}>{m.followed ? "Unfollow" : "Follow"}
