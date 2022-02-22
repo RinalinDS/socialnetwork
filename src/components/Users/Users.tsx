@@ -2,6 +2,7 @@ import React from 'react';
 import s from "./Users.module.css";
 import userPhoto from "../../assets/images/avatar2.png";
 import {UserType} from "../../redux/userReducer";
+import {NavLink} from "react-router-dom";
 
 
 interface PropsType {
@@ -33,8 +34,8 @@ export const Users = (props: PropsType) => {
 
 
                         <div>
-                            <img src={m.photos.small ? m.photos.small : userPhoto} alt={'avatar'}
-                                 className={s.photo}/>
+                           <NavLink to={'/profile/' + "" +m.id}> <img src={m.photos.small ? m.photos.small : userPhoto} alt={'avatar'}
+                                 className={s.photo}/></NavLink>
                         </div>
                         <button
                             onClick={() => props.toggleFollowUser(m.id)}>{m.followed ? "Unfollow" : "Follow"}

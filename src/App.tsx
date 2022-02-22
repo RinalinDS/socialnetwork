@@ -2,7 +2,6 @@ import React from 'react';
 import './App.css';
 import {Header} from "./components/Header/Header";
 import {Navbar} from "./components/Navbar/Navbar";
-import {Profile} from "./components/Profile/Profile";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import Settings from "./components/Settings/Settings";
 import {Music} from "./components/Music/Music";
@@ -11,8 +10,7 @@ import {DialogsContainer} from "./components/Dialogs/DialogsContainer";
 import {useSelector} from "react-redux";
 import {AppRootStateType} from "./redux/redux-store";
 import UsersContainer from "./components/Users/UsersContainer";
-
-
+import ProfileContainer from "./components/Profile/ProfileContainer";
 
 
 export type postsType = {
@@ -59,9 +57,9 @@ function App() {
                 <Navbar friends={friendsState}/>
                 <div className={'maincontent'}>
                     <Routes>
-                        <Route path='/profile/*' element={<Profile />}/>
-                        <Route path='/dialogs/*' element={<DialogsContainer />}/>
-                        <Route path='/users/*' element={<UsersContainer />}/>
+                        <Route path='/profile/*' element={<ProfileContainer/>}/>
+                        <Route path='/dialogs/*' element={<DialogsContainer/>}/>
+                        <Route path='/users/*' element={<UsersContainer/>}/>
                         <Route path='/news/*' element={<News/>}/>
                         <Route path='/music/*' element={<Music/>}/>
                         <Route path='/settings/*' element={<Settings/>}/>

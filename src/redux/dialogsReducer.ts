@@ -1,5 +1,5 @@
 import {dialogsType, messageType} from "../App";
-import {GeneralType} from "./store";
+
 
 export type dialogsReducerStateType = {
     dialogs: Array<dialogsType>
@@ -7,15 +7,10 @@ export type dialogsReducerStateType = {
     newMessageText: string
 }
 
-export type updateMessageTextType = {
-    type: "UPDATE-MESSAGE-TEXT"
-    text: string
-}
-export type addLikeCountType = {
-    type: "ADD-LIKE-COUNT"
-    id: number
-    likescount: number
-}
+export type DialogsReducerACType = updateMessageTextType | addMessageACType
+
+
+
 
 const initialState: dialogsReducerStateType = {
     dialogs: [
@@ -34,12 +29,12 @@ const initialState: dialogsReducerStateType = {
     newMessageText: ''
 }
 
-export const dialogsReducer = (state: dialogsReducerStateType = initialState, action: GeneralType): dialogsReducerStateType => {
+export const dialogsReducer = (state: dialogsReducerStateType = initialState, action: DialogsReducerACType): dialogsReducerStateType => {
     switch (action.type) {
-        case "ADD-MESSAGE":
+        case ADD_MESSAGE:
             const newMessage = {id: 5, message: state.newMessageText, myMessage: Math.random() < 0.5}
             return {...state, messages: [...state.messages, newMessage], newMessageText: ''}
-        case "UPDATE-MESSAGE-TEXT":
+        case UPDATE_MESSAGE_TEXT:
             return {...state, newMessageText: action.text}
         default:
             return state
@@ -50,14 +45,26 @@ export const dialogsReducer = (state: dialogsReducerStateType = initialState, ac
 const ADD_MESSAGE = "ADD-MESSAGE"
 const UPDATE_MESSAGE_TEXT = "UPDATE-MESSAGE-TEXT"
 
-export const addMessageAC = (): GeneralType => {
+
+
+
+export type addMessageACType = {
+    type : "ADD-MESSAGE"
+}
+
+export const addMessageAC = ():DialogsReducerACType => {
     return {
         type: ADD_MESSAGE,
     }
 }
-export const updateMessageTextAC = (text: string): GeneralType => {
+export type updateMessageTextType = {
+    type: "UPDATE-MESSAGE-TEXT"
+    text: string
+}
+
+export const updateMessageTextAC = (text: string):DialogsReducerACType => {
     return {
         type: UPDATE_MESSAGE_TEXT,
         text
-    }
+    } as const
 }

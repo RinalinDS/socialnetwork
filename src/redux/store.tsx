@@ -1,14 +1,16 @@
+import {createStore} from "redux";
+/*
 import {stateType} from "../App";
 import {addMessageMType, addPostType, profileReducer, updatePostMessageType} from "./profileReducer";
 import {addLikeCountType, dialogsReducer, updateMessageTextType} from "./dialogsReducer";
 import {sidebarReducer} from "./sidebarReducer";
 
-export type GeneralType =
+/!*export type GeneralType =
     addPostType
     | updatePostMessageType
     | addMessageMType
     | updateMessageTextType
-    | addLikeCountType
+    | addLikeCountType*!/
 
 
 
@@ -67,3 +69,4 @@ export let store = {
 }
 
 
+*/

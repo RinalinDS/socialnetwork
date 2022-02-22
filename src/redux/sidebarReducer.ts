@@ -1,5 +1,6 @@
 import {FriendsType} from "../App";
-import {GeneralType} from "./store";
+
+
 
 type sidebarReducerStateType = Array<FriendsType>
 
@@ -12,7 +13,7 @@ const initialState: Array<FriendsType> = [
 
 
 
-export const sidebarReducer = (state: sidebarReducerStateType = initialState, action: GeneralType): sidebarReducerStateType => {
+export const sidebarReducer = (state: sidebarReducerStateType = initialState, action: any): sidebarReducerStateType => {
     switch (action.type) {
         default:
             return state

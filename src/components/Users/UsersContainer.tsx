@@ -2,7 +2,8 @@ import {connect} from "react-redux";
 import {AppRootStateType} from "../../redux/redux-store";
 import {
     setCurrentPage,
-    setTotalUsersCount, setUsers,
+    setTotalUsersCount,
+    setUsers,
     toggleFollowUser,
     toggleIsFetching,
     UserReducerStateType,
@@ -11,7 +12,7 @@ import {
 import React from "react";
 import axios from "axios";
 import {Users} from "./Users";
-import preloader from '../../assets/images/preloader.gif'
+import {Preloader} from "../../common/Preloader";
 
 
 export type mapStateToPropsType = UserReducerStateType
@@ -41,7 +42,7 @@ class UsersContainer extends React.Component<UsersPropsType> {
     onPageChanged = (page: number) => {
         this.props.toggleIsFetching(true)
         this.props.setCurrentPage(page)
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${page}&count=${this.props.pageSize}`)
+        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${2}&count=${3}`)
             .then(res => {
                 this.props.toggleIsFetching(false)
                 this.props.setUsers(res.data.items)
@@ -52,7 +53,7 @@ class UsersContainer extends React.Component<UsersPropsType> {
     render() {
         return (
             <>
-                {this.props.isFetching ? <img src={preloader} alt={'preloader'}/> :
+                {this.props.isFetching ? <Preloader/> :
                     <Users
                         totalUsersCount={this.props.totalUsersCount}
                         pageSize={this.props.pageSize}

@@ -1,5 +1,4 @@
-import {GeneralType} from "../../redux/store";
-import {addMessageAC, updateMessageTextAC} from "../../redux/dialogsReducer";
+import {addMessageAC, DialogsReducerACType, updateMessageTextAC} from "../../redux/dialogsReducer";
 import {connect} from "react-redux";
 import {AppRootStateType} from "../../redux/redux-store";
 import {Dialogs} from "./Dialogs";
@@ -13,7 +12,7 @@ const mapStateToProps = (state: AppRootStateType) => {
     }
 }
 
-const mapDispatchToProps = (dispatch:(action: GeneralType)=> void) => {
+const mapDispatchToProps = (dispatch:(action: DialogsReducerACType)=> void) => {
     return {
         addMessage: () => {
             dispatch(addMessageAC())
