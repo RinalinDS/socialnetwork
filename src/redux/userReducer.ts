@@ -30,10 +30,15 @@ const initState: UserReducerStateType = {
 
 export const userReducer = (state: UserReducerStateType = initState, action: userReducerActionType): UserReducerStateType => {
     switch (action.type) {
-        case TOGGLE_FOLLOW_USER:
+        case FOLLOW_USER:
             return {
                 ...state,
-                users: [...state.users.map(m => m.id === action.payload.id ? {...m, followed: !m.followed} : m)]
+                users: [...state.users.map(m => m.id === action.payload.id ? {...m, followed: true} : m)]
+            }
+        case UNFOLLOW_USER:
+            return {
+                ...state,
+                users: [...state.users.map(m => m.id === action.payload.id ? {...m, followed: false} : m)]
             }
         case SET_USERS:
             return {...state, users: action.payload.users}
@@ -48,28 +53,31 @@ export const userReducer = (state: UserReducerStateType = initState, action: use
 
 
 export type userReducerActionType =
-    toggleFollowUserACType |
+    followUserUserACType |
+    unfollowUserUserACType |
     setUsersACType |
     setCurrentPageACType |
-    setTotalUsersCountACType|
+    setTotalUsersCountACType |
     toggleIsFetchingACType
 
-type toggleFollowUserACType = ReturnType<typeof toggleFollowUser>
+type followUserUserACType = ReturnType<typeof followUser>
+type unfollowUserUserACType = ReturnType<typeof unfollowUser>
 type setUsersACType = ReturnType<typeof setUsers>
 type setCurrentPageACType = ReturnType<typeof setCurrentPage>
 type setTotalUsersCountACType = ReturnType<typeof setTotalUsersCount>
-type toggleIsFetchingACType = ReturnType <typeof toggleIsFetching>
+type toggleIsFetchingACType = ReturnType<typeof toggleIsFetching>
 
-const TOGGLE_FOLLOW_USER = 'TOGGLE-FOLLOW-USER'
+const FOLLOW_USER = 'FOLLOW_USER'
+const UNFOLLOW_USER = 'UNFOLLOW_USER'
 const SET_USERS = 'SET-USERS'
 const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE'
 const SET_TOTAL_USERS_COUNT = 'SET_TOTAL_USERS_COUNT'
 const TOGGLE_IS_FETCHING = 'TOGGLE_IS_FETCHING'
 
 
-export const toggleFollowUser = (id: number) => {
+export const followUser = (id: number) => {
     return {
-        type: TOGGLE_FOLLOW_USER,
+        type: FOLLOW_USER,
         payload: {
             id
         }
@@ -77,6 +85,15 @@ export const toggleFollowUser = (id: number) => {
     } as const
 }
 
+export const unfollowUser = (id: number) => {
+    return {
+        type: UNFOLLOW_USER,
+        payload: {
+            id
+        }
+
+    } as const
+}
 
 export const setUsers = (users: Array<UserType>) => {
     return {

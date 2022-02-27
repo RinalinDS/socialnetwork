@@ -3,6 +3,7 @@ import s from "./Users.module.css";
 import userPhoto from "../../assets/images/avatar2.png";
 import {UserType} from "../../redux/userReducer";
 import {NavLink} from "react-router-dom";
+import {usersAPI} from "../../api/usersAPI";
 
 
 interface PropsType {
@@ -11,7 +12,8 @@ interface PropsType {
     currentPage: number
     onPageChanged: (page: number) => void
     users: UserType[]
-    toggleFollowUser: (id: number) => void
+    followUser: (id: number) => void
+    unfollowUser: (id: number) => void
 }
 
 
@@ -38,9 +40,32 @@ export const Users = (props: PropsType) => {
                                 src={m.photos.small ? m.photos.small : userPhoto} alt={'avatar'}
                                 className={s.photo}/></NavLink>
                         </div>
-                        <button
-                            onClick={() => props.toggleFollowUser(m.id)}>{m.followed ? "Unfollow" : "Follow"}
-                        </button>
+                        {m.followed ?
+                            <button
+                                onClick={() => {
+                                    usersAPI.unfollowUser(m.id)
+                                        .then(data => {
+                                            if (data.resultCode === 0) {
+                                                props.unfollowUser(m.id)
+                                            }
+                                        })
+
+
+                                }}>Unfollow</button>
+
+                            : <button
+                                onClick={() => {
+                                    usersAPI.followUser(m.id)
+                                        .then(data => {
+                                            debugger
+                                            if (data.resultCode === 0) {
+                                                props.followUser(m.id)
+                                            }
+                                        })
+
+
+                                }}>Follow</button>
+                        }
                         <div>{m.name}</div>
                         <div>{'city'}</div>
                         <div>{'location'}</div>
