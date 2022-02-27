@@ -1,6 +1,5 @@
 import React from 'react';
 import './App.css';
-import {Header} from "./components/Header/Header";
 import {Navbar} from "./components/Navbar/Navbar";
 import {BrowserRouter, Route} from "react-router-dom";
 import Settings from "./components/Settings/Settings";
@@ -11,6 +10,7 @@ import {useSelector} from "react-redux";
 import {AppRootStateType} from "./redux/redux-store";
 import UsersContainer from "./components/Users/UsersContainer";
 import ProfileContainer from "./components/Profile/ProfileContainer";
+import HeaderContainer from "./components/Header/HeaderContainer";
 
 
 export type postsType = {
@@ -53,7 +53,7 @@ function App() {
     return (
         <BrowserRouter>
             <div className="app-wrapper">
-                <Header/>
+                <HeaderContainer/>
                 <Navbar friends={friendsState}/>
                 <div className={'maincontent'}>
 

@@ -21,7 +21,7 @@ class ProfileContainer extends React.Component<withRouterPropsType> {
         if (!userId) {
             userId = '2'
         }
-        axios.get(`https://social-network.samuraijs.com/api/1.0//profile/` + userId)
+        axios.get(`https://social-network.samuraijs.com/api/1.0/profile/` + userId)
             .then(res => {
                 debugger
                 this.props.setUserProfile(res.data)

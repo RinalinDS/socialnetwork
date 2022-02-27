@@ -23,7 +23,7 @@ const initState: UserReducerStateType = {
     users: [],
     currentPage: 1,
     totalUsersCount: 19,
-    pageSize: 4,
+    pageSize: 5,
     isFetching: false
 }
 

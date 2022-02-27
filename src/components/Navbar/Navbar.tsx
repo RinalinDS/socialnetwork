@@ -10,7 +10,6 @@ type propsType = {
 
 export const Navbar = function (props: propsType) {
 
-    /*const isLinkActive = (x: { isActive: boolean }) => x.isActive ? s.active_link : s.item*/
 
 
     return (
