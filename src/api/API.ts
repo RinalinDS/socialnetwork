@@ -16,12 +16,12 @@ export const usersAPI = {
             .then(res => res.data)
     },
     unfollowUser(id: number) {
-        return instance.delete(`follow/${id}`, )
+        return instance.delete(`follow/${id}`,)
             .then(res => res.data)
 
     },
     followUser(id: number) {
-        return instance.post(`follow/${id}`, {} )
+        return instance.post(`follow/${id}`, {})
             .then(res => res.data)
 
     }
@@ -30,6 +30,13 @@ export const usersAPI = {
 export const authAPI = {
     authMe() {
         return instance.get(`auth/me`)
-            .then(res=> res.data)
+            .then(res => res.data)
+    },
+}
+
+export const profileAPI = {
+    setUserProfile(userId: string) {
+        return instance.get('profile/' + userId)
+            .then(res => res.data)
     }
 }

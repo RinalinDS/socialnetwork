@@ -1,9 +1,8 @@
 import React from 'react';
 import s from "./Users.module.css";
 import userPhoto from "../../assets/images/avatar2.png";
-import {UserType} from "../../redux/userReducer";
+import {followUser, unfollowUser, UserType} from "../../redux/userReducer";
 import {NavLink} from "react-router-dom";
-import {usersAPI} from "../../api/usersAPI";
 
 
 interface PropsType {
@@ -35,8 +34,6 @@ export const Users = (props: PropsType) => {
             {props.users.map(m => {
                 return (
                     <div key={m.id}>
-
-
                         <div>
                             <NavLink to={'/profile/' + m.id}> <img
                                 src={m.photos.small ? m.photos.small : userPhoto} alt={'avatar'}
@@ -44,32 +41,13 @@ export const Users = (props: PropsType) => {
                         </div>
                         {m.followed ?
                             <button disabled={props.isFollowingInProgress.some(s => s === m.id)}
-
                                     onClick={() => {
-                                        props.followInProgress(m.id, true)
-                                        usersAPI.unfollowUser(m.id)
-                                            .then(data => {
-                                                if (data.resultCode === 0) {
-                                                    props.unfollowUser(m.id)
-                                                }
-                                                props.followInProgress(m.id, false)
-                                            })
-
-
+                                        unfollowUser(m.id)
                                     }}>Unfollow</button>
 
                             : <button disabled={props.isFollowingInProgress.some(s => s === m.id)}
                                       onClick={() => {
-                                          props.followInProgress(m.id, true)
-                                          usersAPI.followUser(m.id)
-                                              .then(data => {
-                                                  if (data.resultCode === 0) {
-                                                      props.followUser(m.id)
-                                                  }
-                                                  props.followInProgress(m.id, false)
-                                              })
-
-
+                                          followUser(m.id)
                                       }}>Follow</button>
                         }
                         <div>{m.name}</div>

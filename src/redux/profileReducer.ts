@@ -1,4 +1,6 @@
 import {postsType} from "../App";
+import {Dispatch} from "redux";
+import {profileAPI} from "../api/API";
 
 export type profileReducerStateType = {
     posts: Array<postsType>
@@ -79,7 +81,7 @@ export type addLikeCountType = {
     id: number
     likescount: number
 }
-export type setUserProfileType = ReturnType<typeof setUserProfile>
+export type setUserProfileType = ReturnType<typeof setUserProfileAC>
 
 export const addPostAC = () => {
     return {
@@ -100,9 +102,19 @@ export const addLikeCountAC = (id: number, likescount: number) => {
     }
 }
 
-export const setUserProfile = (profile: profileType) => {
+export const setUserProfileAC = (profile: profileType) => {
     return {
         type: SET_USERS_PROFILE,
         profile
     } as const
+}
+
+
+export const setUserProfile = (userId: string) => {
+    return (dispatch: Dispatch) => {
+        profileAPI.setUserProfile(userId)
+            .then(data => {
+                dispatch(setUserProfileAC(data))
+            })
+    }
 }
