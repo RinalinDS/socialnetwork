@@ -4,9 +4,12 @@ import {followInProgress, followUser, getUsers, unfollowUser, UserReducerStateTy
 import React from "react";
 import {Users} from "./Users";
 import {Preloader} from "../../common/Preloader";
+import {Redirect} from "react-router-dom";
 
 
-export type mapStateToPropsType = UserReducerStateType
+export type mapStateToPropsType = UserReducerStateType & {
+    isAuth: boolean
+}
 
 export type mapDispatchToPropsType = {
     followUser: (id: number) => void
@@ -28,6 +31,9 @@ class UsersContainer extends React.Component<UsersPropsType> {
     }
 
     render() {
+        if (!this.props.isAuth) {
+            return <Redirect to={'/login'} />
+        }
         return (
             <>
                 {this.props.isFetching ? <Preloader/> :
@@ -50,14 +56,15 @@ class UsersContainer extends React.Component<UsersPropsType> {
 
 }
 
-function mapStateToProps(state: AppRootStateType): mapStateToPropsType {
+function mapStateToProps(state: AppRootStateType) {
     return {
         users: state.usersPage.users,
         pageSize: state.usersPage.pageSize,
         currentPage: state.usersPage.currentPage,
         totalUsersCount: state.usersPage.totalUsersCount,
         isFetching: state.usersPage.isFetching,
-        isFollowingInProgress: state.usersPage.isFollowingInProgress
+        isFollowingInProgress: state.usersPage.isFollowingInProgress,
+        isAuth: state.auth.isAuth,
     }
 
 }

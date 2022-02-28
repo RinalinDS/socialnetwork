@@ -3,6 +3,7 @@ import s from './Dialog.module.css'
 import {DialogItems} from "./DialogItems/DialogItems";
 import {Message} from "./Message/Message";
 import {dialogsType, messageType} from "../../App";
+import {Redirect} from "react-router-dom";
 
 
 type propsType = {
@@ -11,6 +12,7 @@ type propsType = {
     newMessageText: string
     addMessage: () => void
     updateMessageText: (text: string) => void
+    isAuth: boolean
 }
 
 export const Dialogs = (props: propsType) => {
@@ -33,6 +35,10 @@ export const Dialogs = (props: propsType) => {
             e.preventDefault()
             addMessage()
         }
+    }
+
+    if (!props.isAuth) {
+        return <Redirect to={'/login'} />
     }
 
     return (
