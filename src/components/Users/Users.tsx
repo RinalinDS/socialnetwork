@@ -14,6 +14,8 @@ interface PropsType {
     users: UserType[]
     followUser: (id: number) => void
     unfollowUser: (id: number) => void
+    isFollowingInProgress: number[]
+    followInProgress: (id: number, isFetching: boolean) => void
 }
 
 
@@ -41,30 +43,34 @@ export const Users = (props: PropsType) => {
                                 className={s.photo}/></NavLink>
                         </div>
                         {m.followed ?
-                            <button
-                                onClick={() => {
-                                    usersAPI.unfollowUser(m.id)
-                                        .then(data => {
-                                            if (data.resultCode === 0) {
-                                                props.unfollowUser(m.id)
-                                            }
-                                        })
+                            <button disabled={props.isFollowingInProgress.some(s => s === m.id)}
+
+                                    onClick={() => {
+                                        props.followInProgress(m.id, true)
+                                        usersAPI.unfollowUser(m.id)
+                                            .then(data => {
+                                                if (data.resultCode === 0) {
+                                                    props.unfollowUser(m.id)
+                                                }
+                                                props.followInProgress(m.id, false)
+                                            })
 
 
-                                }}>Unfollow</button>
+                                    }}>Unfollow</button>
 
-                            : <button
-                                onClick={() => {
-                                    usersAPI.followUser(m.id)
-                                        .then(data => {
-                                            debugger
-                                            if (data.resultCode === 0) {
-                                                props.followUser(m.id)
-                                            }
-                                        })
+                            : <button disabled={props.isFollowingInProgress.some(s => s === m.id)}
+                                      onClick={() => {
+                                          props.followInProgress(m.id, true)
+                                          usersAPI.followUser(m.id)
+                                              .then(data => {
+                                                  if (data.resultCode === 0) {
+                                                      props.followUser(m.id)
+                                                  }
+                                                  props.followInProgress(m.id, false)
+                                              })
 
 
-                                }}>Follow</button>
+                                      }}>Follow</button>
                         }
                         <div>{m.name}</div>
                         <div>{'city'}</div>

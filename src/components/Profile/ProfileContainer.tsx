@@ -29,7 +29,7 @@ class ProfileContainer extends React.Component<withRouterPropsType> {
     }
 
     render() {
-        debugger
+
         return (
             <Profile {...this.props} profile={this.props.profile}/>
         )
