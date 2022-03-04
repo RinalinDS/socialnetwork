@@ -110,7 +110,7 @@ export const setUserProfileAC = (profile: profileType) => {
 }
 
 
-export const setUserProfile = (userId: string) => {
+export const setUserProfileThunkCreator = (userId: string) => {
     return (dispatch: Dispatch) => {
         profileAPI.setUserProfile(userId)
             .then(data => {

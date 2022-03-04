@@ -4,7 +4,6 @@ import {followInProgress, followUser, getUsers, unfollowUser, UserReducerStateTy
 import React from "react";
 import {Users} from "./Users";
 import {Preloader} from "../../common/Preloader";
-import {Redirect} from "react-router-dom";
 
 
 export type mapStateToPropsType = UserReducerStateType & {
@@ -31,9 +30,7 @@ class UsersContainer extends React.Component<UsersPropsType> {
     }
 
     render() {
-        if (!this.props.isAuth) {
-            return <Redirect to={'/login'} />
-        }
+
         return (
             <>
                 {this.props.isFetching ? <Preloader/> :

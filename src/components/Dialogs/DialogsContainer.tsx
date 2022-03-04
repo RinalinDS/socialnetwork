@@ -2,6 +2,10 @@ import {addMessageAC, DialogsReducerACType, updateMessageTextAC} from "../../red
 import {connect} from "react-redux";
 import {AppRootStateType} from "../../redux/redux-store";
 import {Dialogs} from "./Dialogs";
+import {withAuthRedirect} from "../../hoc/withAuthRedirect";
+import {compose} from "redux";
+import {withRouter} from "react-router-dom";
+import React from "react";
 
 
 const mapStateToProps = (state: AppRootStateType) => {
@@ -13,7 +17,7 @@ const mapStateToProps = (state: AppRootStateType) => {
     }
 }
 
-const mapDispatchToProps = (dispatch:(action: DialogsReducerACType)=> void) => {
+const mapDispatchToProps = (dispatch: (action: DialogsReducerACType) => void) => {
     return {
         addMessage: () => {
             dispatch(addMessageAC())
@@ -24,4 +28,12 @@ const mapDispatchToProps = (dispatch:(action: DialogsReducerACType)=> void) => {
     }
 }
 
-export const DialogsContainer = connect(mapStateToProps, mapDispatchToProps)(Dialogs)
+
+export default compose<React.ComponentType>(
+    connect(mapStateToProps, mapDispatchToProps),
+    withRouter,
+    withAuthRedirect,
+)(Dialogs)
+
+
+
