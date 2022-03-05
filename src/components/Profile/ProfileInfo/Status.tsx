@@ -1,6 +1,9 @@
 import React, {ChangeEvent, Component} from 'react';
 
-type propsType = {}
+type propsType = {
+    status: string
+    updateUserStatus: (userId: string) => void
+}
 type stateType = {
     editMode: boolean
     status: string
@@ -9,11 +12,10 @@ type stateType = {
 export class Status extends Component<propsType, stateType> {
     state = {
         editMode: false,
-        status: 'HELLO my friends!'
+        status: this.props.status
     }
     activateEditMode = () => {
-        debugger
-        console.log('this: ', this)
+
         this.setState({
             editMode: true
         })
@@ -23,6 +25,7 @@ export class Status extends Component<propsType, stateType> {
         this.setState({
             editMode: false
         })
+        this.props.updateUserStatus(this.state.status)
     }
 
     changeStatusTitle = (e: ChangeEvent<HTMLInputElement>) => {
@@ -36,12 +39,12 @@ export class Status extends Component<propsType, stateType> {
             <div>
                 {!this.state.editMode &&
                     <div>
-                        <span onDoubleClick={this.activateEditMode}>{this.state.status} </span>
+                        <span onDoubleClick={this.activateEditMode}>{this.props.status || '-----'} </span>
                     </div>
                 }
                 {this.state.editMode &&
                     <div>
-                        <input  autoFocus value={this.state.status} type="text" onBlur={this.deActivateEditMode.bind(this)}
+                        <input  autoFocus value={this.state.status}  onBlur={this.deActivateEditMode.bind(this)}
                                onChange={this.changeStatusTitle}/>
                     </div>
                 }

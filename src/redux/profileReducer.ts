@@ -6,9 +6,10 @@ export type profileReducerStateType = {
     posts: Array<postsType>
     newPostText: string
     profile: profileType
+    status: string
 }
 
-type GeneralTypeForProfileReducer = addPostType | updatePostMessageType | addLikeCountType | setUserProfileType
+type GeneralTypeForProfileReducer = addPostType | updatePostMessageType | addLikeCountType | setUserProfileType | setUserStatusType
 
 export type profileType = {
     userId: number
@@ -38,7 +39,8 @@ const initialState: profileReducerStateType = {
         {id: 3, message: "YOU WERE MY BROTHER ANAKIN", likescount: 141},
     ],
     newPostText: "",
-    profile: {} as profileType
+    profile: {} as profileType,
+    status: ''
 }
 
 export const profileReducer = (state: profileReducerStateType = initialState, action: GeneralTypeForProfileReducer): profileReducerStateType => {
@@ -59,6 +61,8 @@ export const profileReducer = (state: profileReducerStateType = initialState, ac
         case SET_USERS_PROFILE : {
             return {...state, profile: action.profile}
         }
+        case SET_USER_STATUS:
+            return {...state, status: action.status}
         default:
             return state
     }
@@ -69,6 +73,7 @@ const ADD_POST = "ADD-POST"
 const UPDATE_POST_MESSAGE = "UPDATE-POST-MESSAGE"
 const ADD_LIKE_COUNT = "ADD-LIKE-COUNT"
 const SET_USERS_PROFILE = "SET_USERS_PROFILE"
+const SET_USER_STATUS = 'SET_USER_STATUS'
 
 
 export type addPostType = ReturnType<typeof addPostAC>
@@ -82,6 +87,7 @@ export type addLikeCountType = {
     likescount: number
 }
 export type setUserProfileType = ReturnType<typeof setUserProfileAC>
+export type setUserStatusType = ReturnType<typeof setUserStatusAC>
 
 export const addPostAC = () => {
     return {
@@ -109,12 +115,40 @@ export const setUserProfileAC = (profile: profileType) => {
     } as const
 }
 
+export const setUserStatusAC = (status: string) => {
+    return {
+        type: SET_USER_STATUS,
+        status
+    } as const
+}
+
 
 export const setUserProfileThunkCreator = (userId: string) => {
     return (dispatch: Dispatch) => {
         profileAPI.setUserProfile(userId)
             .then(data => {
                 dispatch(setUserProfileAC(data))
+            })
+    }
+}
+
+export const getUserStatusThunkCreator = (userId: string) => {
+
+    return (dispatch: Dispatch) => {
+        profileAPI.getStatus(userId)
+            .then(data => {
+                dispatch(setUserStatusAC(data.data))
+            })
+    }
+}
+export const updateUserStatusThunkCreator = (status: string) => {
+
+    return (dispatch: Dispatch) => {
+        profileAPI.updateStatus(status)
+            .then(res => {
+                if (res.data.resultCode === 0) {
+                    dispatch(setUserStatusAC(status))
+                }
             })
     }
 }
