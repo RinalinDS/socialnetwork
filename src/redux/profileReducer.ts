@@ -123,7 +123,7 @@ export const setUserStatusAC = (status: string) => {
 }
 
 
-export const setUserProfileThunkCreator = (userId: string) => {
+export const getUserProfileThunkCreator = (userId: string) => {
     return (dispatch: Dispatch) => {
         profileAPI.setUserProfile(userId)
             .then(data => {
@@ -136,8 +136,8 @@ export const getUserStatusThunkCreator = (userId: string) => {
 
     return (dispatch: Dispatch) => {
         profileAPI.getStatus(userId)
-            .then(data => {
-                dispatch(setUserStatusAC(data.data))
+            .then(res => {
+                dispatch(setUserStatusAC(res.data))
             })
     }
 }

@@ -43,11 +43,13 @@ const initState: UserReducerStateType = {
 export const userReducer = (state: UserReducerStateType = initState, action: userReducerActionType): UserReducerStateType => {
     switch (action.type) {
         case FOLLOW_USER:
+            debugger
             return {
                 ...state,
                 users: [...state.users.map(m => m.id === action.payload.id ? {...m, followed: true} : m)]
             }
         case UNFOLLOW_USER:
+            debugger
             return {
                 ...state,
                 users: [...state.users.map(m => m.id === action.payload.id ? {...m, followed: false} : m)]
@@ -106,6 +108,7 @@ const FOLLOWING_IN_PROGRESS = 'FOLLOWING_IN_PROGRESS'
 // ACTION CREATORS
 
 export const followUserAC = (id: number) => {
+    debugger
     return {
         type: FOLLOW_USER,
         payload: {
@@ -181,7 +184,8 @@ export const getUsers = (currentPage: number, pageSize: number) => {
 }
 
 export const unfollowUser = (userID: number) => {
-    return (dispatch: Dispatch<userReducerActionType>) => {
+
+    return (dispatch: Dispatch) => {
         dispatch(followInProgress(userID, true))
         usersAPI.unfollowUser(userID)
             .then(data => {
@@ -194,7 +198,8 @@ export const unfollowUser = (userID: number) => {
 }
 
 export const followUser = (userID: number) => {
-    return (dispatch: Dispatch<userReducerActionType>) => {
+
+    return (dispatch: Dispatch) => {
         dispatch(followInProgress(userID, true))
         usersAPI.followUser(userID)
             .then(data => {

@@ -10,7 +10,7 @@ export const Friends = (props: propsType) => {
     return (
         <div className={s.friends}>
             <h2>Friends:</h2>
-            {props.friends.map(m => <span>{m.name} </span>)}
+            {props.friends.map((m,i) => <span key={i}>{m.name} </span>)}
             </div>
     );
 };

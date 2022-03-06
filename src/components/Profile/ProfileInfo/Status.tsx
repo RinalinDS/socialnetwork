@@ -28,6 +28,15 @@ export class Status extends Component<propsType, stateType> {
         this.props.updateUserStatus(this.state.status)
     }
 
+    componentDidUpdate(prevProps: Readonly<propsType>, prevState: Readonly<stateType>) {
+
+        if(prevProps.status !== this.props.status) {
+            this.setState({
+                status: this.props.status
+            })
+        }
+    }
+
     changeStatusTitle = (e: ChangeEvent<HTMLInputElement>) => {
         this.setState({
             status: e.currentTarget.value
@@ -44,7 +53,7 @@ export class Status extends Component<propsType, stateType> {
                 }
                 {this.state.editMode &&
                     <div>
-                        <input  autoFocus value={this.state.status}  onBlur={this.deActivateEditMode.bind(this)}
+                        <input autoFocus value={this.state.status} onBlur={this.deActivateEditMode.bind(this)}
                                onChange={this.changeStatusTitle}/>
                     </div>
                 }

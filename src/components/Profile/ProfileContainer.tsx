@@ -3,13 +3,12 @@ import {Profile} from "./Profile";
 import {connect} from "react-redux";
 import {AppRootStateType} from "../../redux/redux-store";
 import {
+    getUserProfileThunkCreator,
     getUserStatusThunkCreator,
     profileType,
-    setUserProfileThunkCreator,
     updateUserStatusThunkCreator
 } from "../../redux/profileReducer";
 import {RouteComponentProps, withRouter} from "react-router-dom";
-import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 import {compose} from "redux";
 
 type propsType = mapStateToPropsType & mapDispatchToPropsType
@@ -27,7 +26,7 @@ class ProfileContainer extends React.Component<withRouterPropsType> {
         if (!userId) {
             userId = '22154'
         }
-        this.props.setUserProfile(userId)
+        this.props.getUserProfile(userId)
         this.props.getUserStatus(userId)
 
     }
@@ -47,7 +46,7 @@ type mapStateToPropsType = {
 
 }
 type mapDispatchToPropsType = {
-    setUserProfile: (userId: string) => void
+    getUserProfile: (userId: string) => void
     getUserStatus: (userId: string) => void
     updateUserStatus: (status: string) => void
 }
@@ -62,11 +61,10 @@ const mapStateToProps = (state: AppRootStateType) => {
 
 export default compose<React.ComponentType>(
     connect(mapStateToProps, {
-        setUserProfile: setUserProfileThunkCreator,
+        getUserProfile: getUserProfileThunkCreator,
         getUserStatus: getUserStatusThunkCreator,
         updateUserStatus: updateUserStatusThunkCreator
     }),
     withRouter,
-    withAuthRedirect,
 )(ProfileContainer)
 

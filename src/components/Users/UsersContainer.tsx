@@ -21,6 +21,7 @@ export type UsersPropsType = mapStateToPropsType & mapDispatchToPropsType
 
 
 class UsersContainer extends React.Component<UsersPropsType> {
+
     componentDidMount() {
         this.props.getUsers(this.props.currentPage, this.props.pageSize)
     }
@@ -30,8 +31,8 @@ class UsersContainer extends React.Component<UsersPropsType> {
     }
 
     render() {
-
         return (
+
             <>
                 {this.props.isFetching ? <Preloader/> :
                     <Users

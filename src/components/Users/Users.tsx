@@ -1,7 +1,7 @@
 import React from 'react';
 import s from "./Users.module.css";
 import userPhoto from "../../assets/images/avatar2.png";
-import {followUser, unfollowUser, UserType} from "../../redux/userReducer";
+import {UserType} from "../../redux/userReducer";
 import {NavLink} from "react-router-dom";
 
 
@@ -42,12 +42,14 @@ export const Users = (props: PropsType) => {
                         {m.followed ?
                             <button disabled={props.isFollowingInProgress.some(s => s === m.id)}
                                     onClick={() => {
-                                        unfollowUser(m.id)
+                                        
+                                        props.unfollowUser(m.id)
                                     }}>Unfollow</button>
 
                             : <button disabled={props.isFollowingInProgress.some(s => s === m.id)}
                                       onClick={() => {
-                                          followUser(m.id)
+
+                                          props.followUser(m.id)
                                       }}>Follow</button>
                         }
                         <div>{m.name}</div>
