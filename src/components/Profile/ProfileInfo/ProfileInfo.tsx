@@ -1,7 +1,7 @@
 import React from "react";
 import s from './ProfileInfo.module.css'
 import {profileType} from "../../../redux/profileReducer";
-import {Preloader} from "../../../common/Preloader";
+import {Preloader} from "../../../common/Preloader/Preloader";
 import {Status} from "./Status";
 import preloader from './../../../assets/images/preloader.gif'
 

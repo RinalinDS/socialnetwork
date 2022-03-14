@@ -1,14 +1,8 @@
 import React from "react";
-import {
-    addLikeCountAC,
-    addPostAC,
-    profileReducerStateType,
-    updatePostMessageAC
-} from "../../../redux/profileReducer";
+import {addLikeCountAC, addPostAC, profileReducerStateType,} from "../../../redux/profileReducer";
 import {MyPost} from "./MyPost";
 import {AppRootStateType} from "../../../redux/redux-store";
 import {useDispatch, useSelector} from "react-redux";
-
 
 
 export const MyPostContainer = function () {
@@ -17,22 +11,17 @@ export const MyPostContainer = function () {
     const dispatch = useDispatch()
 
 
-    const addPost = () => {
-        dispatch(addPostAC())
+    const addPost = (post: string) => {
+        dispatch(addPostAC(post))
     }
 
-
-    const onChangeHandler = (text: string) => {
-        /* let action: GeneralType = { type: "UPDATE-POST-MESSAGE", text }*/
-        dispatch(updatePostMessageAC(text))
-    }
 
     const onClickAddLikeHandler = (id: number, likescount: number) => {
         dispatch(addLikeCountAC(id, likescount))
     }
 
     return (
-        <MyPost posts={state.posts} newTextMsg={state.newPostText} likeClickHandler={onClickAddLikeHandler}
-                addPost={addPost} updatePostMsg={onChangeHandler}/>
+        <MyPost posts={state.posts} likeClickHandler={onClickAddLikeHandler}
+                addPost={addPost} />
     )
 }

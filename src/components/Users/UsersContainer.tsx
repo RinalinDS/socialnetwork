@@ -3,7 +3,7 @@ import {AppRootStateType} from "../../redux/redux-store";
 import {followInProgress, followUser, getUsers, unfollowUser, UserReducerStateType} from "../../redux/userReducer";
 import React from "react";
 import {Users} from "./Users";
-import {Preloader} from "../../common/Preloader";
+import {Preloader} from "../../common/Preloader/Preloader";
 
 
 export type mapStateToPropsType = UserReducerStateType & {

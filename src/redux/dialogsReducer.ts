@@ -4,12 +4,9 @@ import {dialogsType, messageType} from "../App";
 export type dialogsReducerStateType = {
     dialogs: Array<dialogsType>
     messages: Array<messageType>
-    newMessageText: string
 }
 
-export type DialogsReducerACType = updateMessageTextType | addMessageACType
-
-
+export type DialogsReducerACType = addMessageACType
 
 
 const initialState: dialogsReducerStateType = {
@@ -25,17 +22,15 @@ const initialState: dialogsReducerStateType = {
         {id: 2, message: 'How r u today?', myMessage: false},
         {id: 3, message: 'Bad boys what you gonna do ?', myMessage: true},
         {id: 4, message: 'When we come for you?', myMessage: false},
-    ],
-    newMessageText: ''
+    ]
 }
 
 export const dialogsReducer = (state: dialogsReducerStateType = initialState, action: DialogsReducerACType): dialogsReducerStateType => {
     switch (action.type) {
         case ADD_MESSAGE:
-            const newMessage = {id: 5, message: state.newMessageText, myMessage: Math.random() < 0.5}
-            return {...state, messages: [...state.messages, newMessage], newMessageText: ''}
-        case UPDATE_MESSAGE_TEXT:
-            return {...state, newMessageText: action.text}
+            const newMessage = {id: 5, message: action.message, myMessage: Math.random() < 0.5}
+            return {...state, messages: [...state.messages, newMessage]}
+
         default:
             return state
     }
@@ -43,28 +38,16 @@ export const dialogsReducer = (state: dialogsReducerStateType = initialState, ac
 
 
 const ADD_MESSAGE = "ADD-MESSAGE"
-const UPDATE_MESSAGE_TEXT = "UPDATE-MESSAGE-TEXT"
-
-
 
 
 export type addMessageACType = {
-    type : "ADD-MESSAGE"
+    type: "ADD-MESSAGE"
+    message: string
 }
 
-export const addMessageAC = ():DialogsReducerACType => {
+export const addMessageAC = (message: string): DialogsReducerACType => {
     return {
         type: ADD_MESSAGE,
+        message,
     }
-}
-export type updateMessageTextType = {
-    type: "UPDATE-MESSAGE-TEXT"
-    text: string
-}
-
-export const updateMessageTextAC = (text: string):DialogsReducerACType => {
-    return {
-        type: UPDATE_MESSAGE_TEXT,
-        text
-    } as const
 }

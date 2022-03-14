@@ -59,6 +59,7 @@ const mapStateToProps = (state: AppRootStateType) => {
 }
 
 
+
 export default compose<React.ComponentType>(
     connect(mapStateToProps, {
         getUserProfile: getUserProfileThunkCreator,

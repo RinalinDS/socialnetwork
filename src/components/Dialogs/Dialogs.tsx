@@ -1,17 +1,22 @@
-import React, {ChangeEvent, KeyboardEvent} from 'react';
+import React from 'react';
 import s from './Dialog.module.css'
 import {DialogItems} from "./DialogItems/DialogItems";
 import {Message} from "./Message/Message";
 import {dialogsType, messageType} from "../../App";
+import {Field, InjectedFormProps, reduxForm} from "redux-form";
+import {maxLengthCreator, required} from "../../validators/validators";
+import {Textarea} from "../../common/FormsControls/FormsControl";
 
+const maxLength50 = maxLengthCreator(50)
 
 type propsType = {
     dialogs: Array<dialogsType>
     messages: Array<messageType>
-    newMessageText: string
-    addMessage: () => void
-    updateMessageText: (text: string) => void
+    addMessage: (message: string) => void
     isAuth: boolean
+}
+type FormDataType = {
+    message: string
 }
 
 export const Dialogs = (props: propsType) => {
@@ -19,21 +24,8 @@ export const Dialogs = (props: propsType) => {
     let messageElements = props.messages.map(m => <Message message={m.message} myMessage={m.myMessage}/>)
     let dialogsElements = props.dialogs.map(m => <DialogItems name={m.name} id={m.id} avatar={m.avatar}/>)
 
-    const addMessage = () => {
-        props.addMessage()
-    }
-
-    const onChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        if (e.currentTarget) {
-            let text = e.currentTarget.value
-            props.updateMessageText(text)
-        }
-    }
-    const onKeyPressHandler = (e: KeyboardEvent<HTMLTextAreaElement>) => {
-        if (e.code === "Enter") {
-            e.preventDefault()
-            addMessage()
-        }
+    const addMessage = (data: FormDataType) => {
+        props.addMessage(data.message)
     }
 
 
@@ -49,13 +41,28 @@ export const Dialogs = (props: propsType) => {
                 {messageElements}
 
                 <div className={s.textarea}>
-                    <textarea value={props.newMessageText} onKeyPress={onKeyPressHandler}
-                              onChange={onChangeHandler}> </textarea>
-                    <div>
-                        <button onClick={addMessage}>add message</button>
-                    </div>
+                    <ReduxAddMessageForm onSubmit={addMessage}/>
                 </div>
             </div>
         </div>
     );
 };
+
+
+
+const AddMessageForm:React.FC<InjectedFormProps<FormDataType>> = props => {
+    return (
+        <form onSubmit={props.handleSubmit}>
+            <div>
+                <Field validate={[required, maxLength50]} component={Textarea} name={'message'} placeholder={'Enter your Message'}/>
+            </div>
+            <div>
+                <button>send message</button>
+            </div>
+        </form>
+    )
+
+}
+
+const ReduxAddMessageForm = reduxForm<FormDataType>({form: 'dialogAddMessageForm'})(AddMessageForm)
+

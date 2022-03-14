@@ -33,7 +33,6 @@ export type FriendsType = {
     id: number
     name: string
 }
-
 export type stateType = {
     profilePage: {
         posts: Array<postsType>

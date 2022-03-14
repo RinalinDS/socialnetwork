@@ -4,12 +4,15 @@ import {profileAPI} from "../api/API";
 
 export type profileReducerStateType = {
     posts: Array<postsType>
-    newPostText: string
     profile: profileType
     status: string
 }
 
-type GeneralTypeForProfileReducer = addPostType | updatePostMessageType | addLikeCountType | setUserProfileType | setUserStatusType
+type GeneralTypeForProfileReducer =
+    | addPostType
+    | addLikeCountType
+    | setUserProfileType
+    | setUserStatusType
 
 export type profileType = {
     userId: number
@@ -38,7 +41,6 @@ const initialState: profileReducerStateType = {
         {id: 2, message: "Hello There", likescount: 10},
         {id: 3, message: "YOU WERE MY BROTHER ANAKIN", likescount: 141},
     ],
-    newPostText: "",
     profile: {} as profileType,
     status: ''
 }
@@ -46,10 +48,8 @@ const initialState: profileReducerStateType = {
 export const profileReducer = (state: profileReducerStateType = initialState, action: GeneralTypeForProfileReducer): profileReducerStateType => {
     switch (action.type) {
         case ADD_POST:
-            let newPost: postsType = {id: 4, message: state.newPostText, likescount: 0}
-            return {...state, posts: [...state.posts, newPost], newPostText: ''}
-        case UPDATE_POST_MESSAGE:
-            return {...state, newPostText: action.text}
+            let newPost: postsType = {id: 4, message: action.post, likescount: 0}
+            return {...state, posts: [...state.posts, newPost]}
         case ADD_LIKE_COUNT:
             return {
                 ...state,
@@ -70,17 +70,12 @@ export const profileReducer = (state: profileReducerStateType = initialState, ac
 
 
 const ADD_POST = "ADD-POST"
-const UPDATE_POST_MESSAGE = "UPDATE-POST-MESSAGE"
 const ADD_LIKE_COUNT = "ADD-LIKE-COUNT"
 const SET_USERS_PROFILE = "SET_USERS_PROFILE"
 const SET_USER_STATUS = 'SET_USER_STATUS'
 
 
 export type addPostType = ReturnType<typeof addPostAC>
-export type updatePostMessageType = {
-    type: "UPDATE-POST-MESSAGE"
-    text: string
-}
 export type addLikeCountType = {
     type: "ADD-LIKE-COUNT"
     id: number
@@ -89,17 +84,13 @@ export type addLikeCountType = {
 export type setUserProfileType = ReturnType<typeof setUserProfileAC>
 export type setUserStatusType = ReturnType<typeof setUserStatusAC>
 
-export const addPostAC = () => {
+export const addPostAC = (post: string) => {
     return {
         type: ADD_POST,
+        post,
     } as const
 }
-export const updatePostMessageAC = (text: string) => {
-    return {
-        type: UPDATE_POST_MESSAGE,
-        text
-    }
-}
+
 export const addLikeCountAC = (id: number, likescount: number) => {
     return {
         type: ADD_LIKE_COUNT,
@@ -133,7 +124,6 @@ export const getUserProfileThunkCreator = (userId: string) => {
 }
 
 export const getUserStatusThunkCreator = (userId: string) => {
-
     return (dispatch: Dispatch) => {
         profileAPI.getStatus(userId)
             .then(res => {
@@ -142,7 +132,6 @@ export const getUserStatusThunkCreator = (userId: string) => {
     }
 }
 export const updateUserStatusThunkCreator = (status: string) => {
-
     return (dispatch: Dispatch) => {
         profileAPI.updateStatus(status)
             .then(res => {

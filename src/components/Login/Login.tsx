@@ -1,5 +1,7 @@
 import React from 'react';
 import {Field, InjectedFormProps, reduxForm} from 'redux-form';
+import {Input} from "../../common/FormsControls/FormsControl";
+import {required} from "../../validators/validators";
 
 
 type FormDataType = {
@@ -10,17 +12,17 @@ type FormDataType = {
 
 export const LoginForm: React.FC<InjectedFormProps<FormDataType>> = (props) => {
     /*
-          handler sumbit выполняет 3 действия : 1). e.preventdefault чтобы не перезагружать страницу  при сабмите
+          handle sumbit выполняет 3 действия : 1). e.preventdefault чтобы не перезагружать страницу  при сабмите
           2). собирает все данные с форм в один объект
           3). вызывает функцию переданную с родительской компоненты ОнСабмит и засовывает в нее этот объект*/
     return (
         <form onSubmit={props.handleSubmit}>
 
             <div>
-                <Field placeholder={'Login'} component={'input'} name={'login'}/>
+                <Field validate={[required]} placeholder={'Login'} component={Input} name={'login'}/>
             </div>
             <div>
-                <Field placeholder={'Password'} component={'input'} name={'password'}/>
+                <Field validate={[required]} placeholder={'Password'} component={Input} name={'password'}/>
             </div>
             <div><Field type={'checkbox'} component={'input'} name={'rememberMe'}/>Remember me</div>
             <div>
