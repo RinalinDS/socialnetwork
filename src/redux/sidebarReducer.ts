@@ -1,7 +1,6 @@
 import {FriendsType} from "../App";
 
 
-
 type sidebarReducerStateType = Array<FriendsType>
 
 const initialState: Array<FriendsType> = [
@@ -10,11 +9,11 @@ const initialState: Array<FriendsType> = [
     {id: 3, name: "Albina"}
 ]
 
+export type ActionTypeForSidebarReducer = {}
 
 
-
-export const sidebarReducer = (state: sidebarReducerStateType = initialState, action: any): sidebarReducerStateType => {
-    switch (action.type) {
+export const sidebarReducer = (state: sidebarReducerStateType = initialState, action: ActionTypeForSidebarReducer): sidebarReducerStateType => {
+    switch (true) {
         default:
             return state
 

@@ -2,6 +2,8 @@ import React from 'react';
 import {Field, InjectedFormProps, reduxForm} from 'redux-form';
 import {Input} from "../../common/FormsControls/FormsControl";
 import {required} from "../../validators/validators";
+import {connect} from "react-redux";
+import {login} from "../../redux/authReducer";
 
 
 type FormDataType = {
@@ -10,7 +12,7 @@ type FormDataType = {
     rememberMe: boolean
 }
 
-export const LoginForm: React.FC<InjectedFormProps<FormDataType>> = (props) => {
+const LoginForm: React.FC<InjectedFormProps<FormDataType>> = (props) => {
     /*
           handle sumbit выполняет 3 действия : 1). e.preventdefault чтобы не перезагружать страницу  при сабмите
           2). собирает все данные с форм в один объект
@@ -22,7 +24,7 @@ export const LoginForm: React.FC<InjectedFormProps<FormDataType>> = (props) => {
                 <Field validate={[required]} placeholder={'Login'} component={Input} name={'login'}/>
             </div>
             <div>
-                <Field validate={[required]} placeholder={'Password'} component={Input} name={'password'}/>
+                <Field validate={[required]} placeholder={'Password'} component={Input} name={'password'} type={'password'}/>
             </div>
             <div><Field type={'checkbox'} component={'input'} name={'rememberMe'}/>Remember me</div>
             <div>
@@ -35,12 +37,12 @@ export const LoginForm: React.FC<InjectedFormProps<FormDataType>> = (props) => {
 
 const ReduxLoginForm = reduxForm<FormDataType>({form: 'Login'})(LoginForm)
 
-export const Login = () => {
+const Login = (props: mapStateToPropsType) => {
 
     // Сюда придет форм дата благодаря вызову handleSubmit при нажатии на баттон автомат самбитится форма.
     // и сюда прилетает объект форм дата в котолром инфа со всех инпутов
     const onSubmit = (formData: FormDataType) => {
-        console.log(formData)
+        props.login(formData.login, formData.password, formData.rememberMe)
     }
     return (
         <div>
@@ -53,3 +55,8 @@ export const Login = () => {
     );
 };
 
+type mapStateToPropsType = {
+    login: (email: string, password: string, rememberMe: boolean) => void
+}
+
+export default connect(null, {login})(Login)

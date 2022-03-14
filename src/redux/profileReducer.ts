@@ -8,7 +8,7 @@ export type profileReducerStateType = {
     status: string
 }
 
-type GeneralTypeForProfileReducer =
+export type GeneralTypeForProfileReducer =
     | addPostType
     | addLikeCountType
     | setUserProfileType
