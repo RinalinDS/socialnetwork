@@ -4,6 +4,7 @@ import {Input} from "../../common/FormsControls/FormsControl";
 import {required} from "../../validators/validators";
 import {connect} from "react-redux";
 import {login} from "../../redux/authReducer";
+import styles from './../../common/FormsControls/FormsControl.module.css'
 
 
 type FormDataType = {
@@ -24,12 +25,14 @@ const LoginForm: React.FC<InjectedFormProps<FormDataType>> = (props) => {
                 <Field validate={[required]} placeholder={'Login'} component={Input} name={'login'}/>
             </div>
             <div>
-                <Field validate={[required]} placeholder={'Password'} component={Input} name={'password'} type={'password'}/>
+                <Field validate={[required]} placeholder={'Password'} component={Input} name={'password'} type={'password '}/>
             </div>
             <div><Field type={'checkbox'} component={'input'} name={'rememberMe'}/>Remember me</div>
             <div>
                 <button>Login</button>
             </div>
+            {props.error && <div>
+                <span className={styles.submitError}>{props.error}</span></div>}
         </form>
 
     );
