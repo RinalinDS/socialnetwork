@@ -6,6 +6,7 @@ import {userReducer, userReducerActionType} from "./userReducer";
 import {authReducer, authReducerActionType} from "./authReducer";
 import ThunkMiddleware, {ThunkAction} from "redux-thunk";
 import {FormAction, reducer as formReducer} from 'redux-form'
+import {appReducer} from "./appReducer";
 
 
 const reducers = combineReducers({
@@ -15,6 +16,7 @@ const reducers = combineReducers({
     usersPage: userReducer,
     auth: authReducer,
     form: formReducer,
+    app: appReducer,
 })
 
 type AppActionsType =

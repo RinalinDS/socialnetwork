@@ -3,14 +3,14 @@ import {NavLink} from "react-router-dom";
 import s from "./Navbar.module.css"
 import {Friends} from "./Friends/Friends";
 import {FriendsType} from "../../App";
-
-type propsType = {
-    friends: Array<FriendsType>
-}
-
-export const Navbar = function (props: propsType) {
+import {useSelector} from "react-redux";
+import {AppRootStateType} from "../../redux/redux-store";
 
 
+
+export const Navbar = function () {
+
+    const friendsState = useSelector<AppRootStateType, Array<FriendsType>>(state => state.friends)
 
     return (
         <nav className={s.nav}>
@@ -36,7 +36,7 @@ export const Navbar = function (props: propsType) {
 
             <div>
 
-                <Friends friends={props.friends}/>
+                <Friends friends={friendsState}/>
 
             </div>
         </nav>

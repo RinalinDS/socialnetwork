@@ -13,13 +13,14 @@ type propsType = {
     dialogs: Array<dialogsType>
     messages: Array<messageType>
     addMessage: (message: string) => void
-    isAuth: boolean
+    isAuth: string
 }
 type FormDataType = {
     message: string
 }
 
 export const Dialogs = (props: propsType) => {
+debugger
 
     let messageElements = props.messages.map(m => <Message message={m.message} myMessage={m.myMessage}/>)
     let dialogsElements = props.dialogs.map(m => <DialogItems name={m.name} id={m.id} avatar={m.avatar}/>)
@@ -49,12 +50,12 @@ export const Dialogs = (props: propsType) => {
 };
 
 
-
-const AddMessageForm:React.FC<InjectedFormProps<FormDataType>> = props => {
+const AddMessageForm: React.FC<InjectedFormProps<FormDataType>> = props => {
     return (
         <form onSubmit={props.handleSubmit}>
             <div>
-                <Field validate={[required, maxLength50]} component={Textarea} name={'message'} placeholder={'Enter your Message'}/>
+                <Field validate={[required, maxLength50]} component={Textarea} name={'message'}
+                       placeholder={'Enter your Message'}/>
             </div>
             <div>
                 <button>send message</button>

@@ -5,6 +5,8 @@ import {required} from "../../validators/validators";
 import {connect} from "react-redux";
 import {login} from "../../redux/authReducer";
 import styles from './../../common/FormsControls/FormsControl.module.css'
+import {Redirect} from "react-router-dom";
+import {AppRootStateType} from "../../redux/redux-store";
 
 
 type FormDataType = {
@@ -40,12 +42,15 @@ const LoginForm: React.FC<InjectedFormProps<FormDataType>> = (props) => {
 
 const ReduxLoginForm = reduxForm<FormDataType>({form: 'Login'})(LoginForm)
 
-const Login = (props: mapStateToPropsType) => {
+const Login = (props: mapDispatchToPropsType & mapStateToPropsType) => {
 
     // Сюда придет форм дата благодаря вызову handleSubmit при нажатии на баттон автомат самбитится форма.
     // и сюда прилетает объект форм дата в котолром инфа со всех инпутов
     const onSubmit = (formData: FormDataType) => {
         props.login(formData.login, formData.password, formData.rememberMe)
+    }
+    if (props.isAuth) {
+        return <Redirect to={'/profile'} />
     }
     return (
         <div>
@@ -58,8 +63,18 @@ const Login = (props: mapStateToPropsType) => {
     );
 };
 
-type mapStateToPropsType = {
+type mapDispatchToPropsType = {
     login: (email: string, password: string, rememberMe: boolean) => void
 }
 
-export default connect(null, {login})(Login)
+type mapStateToPropsType = {
+    isAuth: boolean
+}
+
+const mapStateToProps = (state: AppRootStateType) => {
+    return {
+        isAuth: state.auth.isAuth
+    }
+}
+
+export default connect(mapStateToProps, {login})(Login)

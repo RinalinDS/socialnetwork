@@ -43,13 +43,13 @@ const initState: UserReducerStateType = {
 export const userReducer = (state: UserReducerStateType = initState, action: userReducerActionType): UserReducerStateType => {
     switch (action.type) {
         case FOLLOW_USER:
-            debugger
+
             return {
                 ...state,
                 users: [...state.users.map(m => m.id === action.payload.id ? {...m, followed: true} : m)]
             }
         case UNFOLLOW_USER:
-            debugger
+
             return {
                 ...state,
                 users: [...state.users.map(m => m.id === action.payload.id ? {...m, followed: false} : m)]
