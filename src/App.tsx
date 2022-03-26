@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import {Navbar} from "./components/Navbar/Navbar";
-import {BrowserRouter, Route, withRouter} from "react-router-dom";
+import {BrowserRouter, Redirect, Route, withRouter} from "react-router-dom";
 import Settings from "./components/Settings/Settings";
 import {Music} from "./components/Music/Music";
 import {News} from "./components/News/News";
@@ -75,7 +75,10 @@ class App extends React.Component<mapDispatchToPropsType & mapStateToPropsType> 
                     <HeaderContainer/>
                     <Navbar/>
                     <div className={'maincontent'}>
+
+                        <Redirect from="/" to='/profile/' />
                         <Route path='/profile/:userId?' render={() => <ProfileContainer/>}/>
+
                         <Route path='/dialogs' render={() => <DialogsContainer/>}/>
                         <Route path='/users' render={() => <UsersContainer/>}/>
                         <Route path='/news' render={() => <News/>}/>

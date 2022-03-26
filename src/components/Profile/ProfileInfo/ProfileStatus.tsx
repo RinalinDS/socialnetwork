@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useState} from 'react';
+import React, {ChangeEvent, useEffect, useState} from 'react';
 
 type propsType = {
     status: string
@@ -11,6 +11,10 @@ export const ProfileStatus = (props: propsType) => {
     const [status, setStatus] = useState(props.status)
     const [editMode, setEditMode] = useState(false)
 
+    useEffect(() => {
+        setStatus(props.status)
+    }, [props.status])
+
     const activateEditMode = () => {
         setEditMode(true)
     }
@@ -22,11 +26,10 @@ export const ProfileStatus = (props: propsType) => {
         setStatus(e.currentTarget.value)
     }
 
-
     return (
         <div>
             {!editMode && <div>
-                <span onDoubleClick={activateEditMode}>{props.status || '-----'} </span>
+                <span onDoubleClick={activateEditMode}>{props.status || 'change status'} </span>
             </div>
             }
             {editMode &&
