@@ -2,8 +2,9 @@ import React from "react";
 import s from './ProfileInfo.module.css'
 import {profileType} from "../../../redux/profileReducer";
 import {Preloader} from "../../../common/Preloader/Preloader";
-import {Status} from "./Status";
 import preloader from './../../../assets/images/preloader.gif'
+import {ProfileStatus} from './ProfileStatus';
+
 
 type ProfileInfoPropsType = {
     profile: profileType
@@ -24,7 +25,7 @@ export const ProfileInfo = (props: ProfileInfoPropsType) => {
                 <img src={props.profile.photos.small ? props.profile.photos.small : preloader} alt={'preloader'}/>
                 <div> {props.profile.fullName} </div>
                 <div> {props.profile.contacts.github}</div>
-                <Status status={props.status} updateUserStatus={props.updateUserStatus}/>
+                <ProfileStatus status={props.status} updateUserStatus={props.updateUserStatus}/>
             </div>
         </div>
     )
