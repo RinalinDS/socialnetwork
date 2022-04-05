@@ -78,7 +78,6 @@ class App extends React.Component<mapDispatchToPropsType & mapStateToPropsType> 
 
                         <Redirect from="/" to='/profile/' />
                         <Route path='/profile/:userId?' render={() => <ProfileContainer/>}/>
-
                         <Route path='/dialogs' render={() => <DialogsContainer/>}/>
                         <Route path='/users' render={() => <UsersContainer/>}/>
                         <Route path='/news' render={() => <News/>}/>

@@ -18,7 +18,7 @@ type FormDataType = {
     profilePost: string
 }
 
-export const MyPost = function (props: propsType) {
+export const MyPost = React.memo((props: propsType) => {
 
     let postsElements = props.posts.map(m => <Post key={m.id} likeClickHandler={props.likeClickHandler} id={m.id}
                                                    message={m.message} likecount={m.likescount}/>)
@@ -26,7 +26,6 @@ export const MyPost = function (props: propsType) {
     const addPost = (values: FormDataType) => {
         props.addPost(values.profilePost)
     }
-
 
     return (
         <div className={s.postsBlock}>
@@ -41,7 +40,7 @@ export const MyPost = function (props: propsType) {
             </div>
         </div>
     )
-}
+})
 
 const AddPostForm: React.FC<InjectedFormProps<FormDataType>> = props => {
     return (
