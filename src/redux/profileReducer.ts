@@ -13,6 +13,7 @@ export type GeneralTypeForProfileReducer =
     | addLikeCountType
     | setUserProfileType
     | setUserStatusType
+    | deletePostType
 
 export type profileType = {
     userId: number
@@ -63,6 +64,9 @@ export const profileReducer = (state: profileReducerStateType = initialState, ac
         }
         case SET_USER_STATUS:
             return {...state, status: action.status}
+        case DELETE_POST:
+            return {...state, posts: state.posts.filter(f => f.id !== action.id)}
+
         default:
             return state
     }
@@ -73,6 +77,7 @@ const ADD_POST = "ADD-POST"
 const ADD_LIKE_COUNT = "ADD-LIKE-COUNT"
 const SET_USERS_PROFILE = "SET_USERS_PROFILE"
 const SET_USER_STATUS = 'SET_USER_STATUS'
+const DELETE_POST = 'DELETE_POST'
 
 
 export type addPostType = ReturnType<typeof addPostAC>
@@ -83,6 +88,14 @@ export type addLikeCountType = {
 }
 export type setUserProfileType = ReturnType<typeof setUserProfileAC>
 export type setUserStatusType = ReturnType<typeof setUserStatusAC>
+export type deletePostType = ReturnType<typeof deletePostAC>
+
+export const deletePostAC = (id: number) => {
+    return {
+        type: DELETE_POST,
+        id
+    } as const
+}
 
 export const addPostAC = (post: string) => {
     return {
