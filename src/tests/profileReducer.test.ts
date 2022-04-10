@@ -5,9 +5,9 @@ let state: profileReducerStateType
 beforeEach(() => {
     state = {
         posts: [
-            {id: 1, message: "General Kenobi!", likescount: 7},
-            {id: 2, message: "Hello There", likescount: 10},
-            {id: 3, message: "YOU WERE MY BROTHER ANAKIN", likescount: 141},
+            {id: 1, message: "General Kenobi!", likesCount: 7},
+            {id: 2, message: "Hello There", likesCount: 10},
+            {id: 3, message: "YOU WERE MY BROTHER ANAKIN", likesCount: 141},
         ],
         profile: {} as profileType,
         status: ''
@@ -33,7 +33,7 @@ test('new post message  should be correct', () => {
 })
 
 
-test('correct message should be deleted', () => {
+it('correct message should be deleted', () => {
 
 
 

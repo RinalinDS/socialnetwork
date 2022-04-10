@@ -1,14 +1,9 @@
 import {dialogsType, messageType} from "../App";
 
+// consts for types
+const ADD_MESSAGE = "dialogs/ADD-MESSAGE"
 
-export type dialogsReducerStateType = {
-    dialogs: Array<dialogsType>
-    messages: Array<messageType>
-}
-
-export type DialogsReducerACType = addMessageACType
-
-
+// init state
 const initialState: dialogsReducerStateType = {
     dialogs: [
         {id: 1, name: 'Lesha', avatar: "https://shutnikov.club/wp-content/uploads/2020/01/1785179_thumb.png"},
@@ -25,29 +20,28 @@ const initialState: dialogsReducerStateType = {
     ]
 }
 
+// reducer
 export const dialogsReducer = (state: dialogsReducerStateType = initialState, action: DialogsReducerACType): dialogsReducerStateType => {
     switch (action.type) {
         case ADD_MESSAGE:
             const newMessage = {id: 5, message: action.message, myMessage: Math.random() < 0.5}
             return {...state, messages: [...state.messages, newMessage]}
-
         default:
             return state
     }
 }
 
+//action creators
+export const addMessageAC = (message: string) => ({type: ADD_MESSAGE, message,}) as const
 
-const ADD_MESSAGE = "ADD-MESSAGE"
 
+//types
+export type addMessageType = ReturnType<typeof addMessageAC>
 
-export type addMessageACType = {
-    type: "ADD-MESSAGE"
-    message: string
+export type DialogsReducerACType = addMessageType
+
+export type dialogsReducerStateType = {
+    dialogs: Array<dialogsType>
+    messages: Array<messageType>
 }
 
-export const addMessageAC = (message: string): DialogsReducerACType => {
-    return {
-        type: ADD_MESSAGE,
-        message,
-    }
-}

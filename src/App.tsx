@@ -13,14 +13,14 @@ import HeaderContainer from "./components/Header/HeaderContainer";
 import Login from "./components/Login/Login";
 import {compose} from "redux";
 import {initializeAppTC} from "./redux/appReducer";
-import {AppRootStateType} from "./redux/redux-store";
+import {AppRootStateType} from "./redux/store";
 import {Preloader} from "./common/Preloader/Preloader";
 
 
 export type postsType = {
     id: number
     message: string
-    likescount: number
+    likesCount: number
 }
 export type dialogsType = {
     id: number

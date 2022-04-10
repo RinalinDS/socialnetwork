@@ -1,31 +1,15 @@
 import {Dispatch} from "redux";
 import {usersAPI} from "../api/API";
 
-//  TYPE FOR USER OBJECT
+// TYPE CONSTANTS FOR ACTION CREATORS
 
-export type UserType = {
-    id: number
-    followed: boolean
-    name: string
-    status: string
-    photos: {
-        small: string | undefined
-        large: string | undefined
-    }
-}
-
-
-// STATE TYPE FOR USER REDUCER
-
-export type UserReducerStateType = {
-    users: Array<UserType>
-    currentPage: number
-    totalUsersCount: number
-    pageSize: number
-    isFetching: boolean
-    isFollowingInProgress: number[]
-}
-
+const FOLLOW_USER = 'FOLLOW_USER'
+const UNFOLLOW_USER = 'UNFOLLOW_USER'
+const SET_USERS = 'SET-USERS'
+const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE'
+const SET_TOTAL_USERS_COUNT = 'SET_TOTAL_USERS_COUNT'
+const TOGGLE_IS_FETCHING = 'TOGGLE_IS_FETCHING'
+const FOLLOWING_IN_PROGRESS = 'FOLLOWING_IN_PROGRESS'
 
 // INITIAL STATE FOR USERREDUCER
 
@@ -73,67 +57,11 @@ export const userReducer = (state: UserReducerStateType = initState, action: use
     }
 }
 
-// ОБЪЕДИНЕННЫЙ ТИП ВСЕХ ACTION CREATOROV
-
-export type userReducerActionType =
-    followUserUserACType |
-    unfollowUserUserACType |
-    setUsersACType |
-    setCurrentPageACType |
-    setTotalUsersCountACType |
-    toggleIsFetchingACType |
-    followInProgressACType
-
-// ТИПИЗАЦИЯ ACTION CREATOROV
-
-type followUserUserACType = ReturnType<typeof followUserAC>
-type unfollowUserUserACType = ReturnType<typeof unfollowUserAC>
-type setUsersACType = ReturnType<typeof setUsers>
-type setCurrentPageACType = ReturnType<typeof setCurrentPage>
-type setTotalUsersCountACType = ReturnType<typeof setTotalUsersCount>
-type toggleIsFetchingACType = ReturnType<typeof toggleIsFetching>
-type followInProgressACType = ReturnType<typeof followInProgress>
-
-// TYPE CONSTANTS FOR ACTION CREATORS
-
-const FOLLOW_USER = 'FOLLOW_USER'
-const UNFOLLOW_USER = 'UNFOLLOW_USER'
-const SET_USERS = 'SET-USERS'
-const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE'
-const SET_TOTAL_USERS_COUNT = 'SET_TOTAL_USERS_COUNT'
-const TOGGLE_IS_FETCHING = 'TOGGLE_IS_FETCHING'
-const FOLLOWING_IN_PROGRESS = 'FOLLOWING_IN_PROGRESS'
-
-
 // ACTION CREATORS
 
-export const followUserAC = (id: number) => {
-    debugger
-    return {
-        type: FOLLOW_USER,
-        payload: {
-            id
-        }
-
-    } as const
-}
-export const unfollowUserAC = (id: number) => {
-    return {
-        type: UNFOLLOW_USER,
-        payload: {
-            id
-        }
-
-    } as const
-}
-export const setUsers = (users: Array<UserType>) => {
-    return {
-        type: SET_USERS,
-        payload: {
-            users
-        }
-    } as const
-}
+export const followUserAC = (id: number) => ({type: FOLLOW_USER, payload: {id}} as const)
+export const unfollowUserAC = (id: number) => ({type: UNFOLLOW_USER, payload: {id}} as const)
+export const setUsers = (users: Array<UserType>) => ({type: SET_USERS, payload: {users}} as const)
 export const setCurrentPage = (page: number) => {
     return {
         type: SET_CURRENT_PAGE,
@@ -170,43 +98,76 @@ export const followInProgress = (id: number, isFetching: boolean) => {
 
 // THUNK CREATORS
 
-export const requestUsers = (currentPage: number, pageSize: number) => {
-    return (dispatch: Dispatch<userReducerActionType>) => {
-        dispatch(toggleIsFetching(true))
-        dispatch(setCurrentPage(currentPage))
-        usersAPI.getUsers(currentPage, pageSize)
-            .then(data => {
-                dispatch(toggleIsFetching(false))
-                dispatch(setUsers(data.items))
-                dispatch(setTotalUsersCount(data.totalCount))
-            })
+export const requestUsers = (currentPage: number, pageSize: number) => async (dispatch: Dispatch<userReducerActionType>) => {
+    dispatch(toggleIsFetching(true))
+    dispatch(setCurrentPage(currentPage))
+    const data = await usersAPI.getUsers(currentPage, pageSize)
+    dispatch(toggleIsFetching(false))
+    dispatch(setUsers(data.items))
+    dispatch(setTotalUsersCount(data.totalCount))
+
+}
+const followUnfollowFlow = async (dispatch: Dispatch, userID: number, apiMethod: any, actionCreator: (userID: number) => userReducerActionType) => {
+    dispatch(followInProgress(userID, true))
+    const data = await apiMethod(userID)
+    if (data.resultCode === 0) {
+        dispatch(actionCreator(userID))
+    }
+    dispatch(followInProgress(userID, false))
+}
+
+export const unfollowUser = (userID: number) => (dispatch: Dispatch) => {
+    followUnfollowFlow(dispatch, userID,usersAPI.unfollowUser, unfollowUserAC)
+}
+
+
+export const followUser = (userID: number) =>  (dispatch: Dispatch) => {
+    followUnfollowFlow(dispatch, userID,usersAPI.followUser, followUserAC)
+}
+
+//  TYPE FOR USER OBJECT
+
+export type UserType = {
+    id: number
+    followed: boolean
+    name: string
+    status: string
+    photos: {
+        small: string | undefined
+        large: string | undefined
     }
 }
 
-export const unfollowUser = (userID: number) => {
 
-    return (dispatch: Dispatch) => {
-        dispatch(followInProgress(userID, true))
-        usersAPI.unfollowUser(userID)
-            .then(data => {
-                if (data.resultCode === 0) {
-                    dispatch(unfollowUserAC(userID))
-                }
-                dispatch(followInProgress(userID, false))
-            })
-    }
+// STATE TYPE FOR USER REDUCER
+
+export type UserReducerStateType = {
+    users: Array<UserType>
+    currentPage: number
+    totalUsersCount: number
+    pageSize: number
+    isFetching: boolean
+    isFollowingInProgress: number[]
 }
 
-export const followUser = (userID: number) => {
+// ОБЪЕДИНЕННЫЙ ТИП ВСЕХ ACTION CREATOROV
 
-    return (dispatch: Dispatch) => {
-        dispatch(followInProgress(userID, true))
-        usersAPI.followUser(userID)
-            .then(data => {
-                if (data.resultCode === 0) {
-                    dispatch(followUserAC(userID))
-                }
-                dispatch(followInProgress(userID, false))
-            })
-    }
-}
+export type userReducerActionType =
+    followUserUserACType |
+    unfollowUserUserACType |
+    setUsersACType |
+    setCurrentPageACType |
+    setTotalUsersCountACType |
+    toggleIsFetchingACType |
+    followInProgressACType
+
+// ТИПИЗАЦИЯ ACTION CREATOROV
+
+type followUserUserACType = ReturnType<typeof followUserAC>
+type unfollowUserUserACType = ReturnType<typeof unfollowUserAC>
+type setUsersACType = ReturnType<typeof setUsers>
+type setCurrentPageACType = ReturnType<typeof setCurrentPage>
+type setTotalUsersCountACType = ReturnType<typeof setTotalUsersCount>
+type toggleIsFetchingACType = ReturnType<typeof toggleIsFetching>
+type followInProgressACType = ReturnType<typeof followInProgress>
+

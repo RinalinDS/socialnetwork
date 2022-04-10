@@ -4,7 +4,7 @@ import s from "./Navbar.module.css"
 import {Friends} from "./Friends/Friends";
 import {FriendsType} from "../../App";
 import {useSelector} from "react-redux";
-import {AppRootStateType} from "../../redux/redux-store";
+import {AppRootStateType} from "../../redux/store";
 
 
 

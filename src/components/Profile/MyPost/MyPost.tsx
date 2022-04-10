@@ -11,7 +11,7 @@ const maxLength10 = maxLengthCreator(15)
 type propsType = {
     posts: Array<postsType>
     addPost: (post: string) => void
-    likeClickHandler: (id: number, likescount: number) => void
+    likeClickHandler: (id: number, likesCount: number) => void
 }
 
 type FormDataType = {
@@ -21,7 +21,7 @@ type FormDataType = {
 export const MyPost = React.memo((props: propsType) => {
 
     let postsElements = props.posts.map(m => <Post key={m.id} likeClickHandler={props.likeClickHandler} id={m.id}
-                                                   message={m.message} likecount={m.likescount}/>)
+                                                   message={m.message} likesCount={m.likesCount}/>)
 
     const addPost = (values: FormDataType) => {
         props.addPost(values.profilePost)

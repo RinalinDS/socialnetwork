@@ -6,7 +6,7 @@ import {connect} from "react-redux";
 import {login} from "../../redux/authReducer";
 import styles from './../../common/FormsControls/FormsControl.module.css'
 import {Redirect} from "react-router-dom";
-import {AppRootStateType} from "../../redux/redux-store";
+import {AppRootStateType} from "../../redux/store";
 
 
 type FormDataType = {
