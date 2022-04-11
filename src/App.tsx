@@ -1,7 +1,7 @@
 import React, {Suspense} from 'react';
 import './App.css';
 import {Navbar} from "./components/Navbar/Navbar";
-import {BrowserRouter, Redirect, Route, withRouter} from "react-router-dom";
+import {HashRouter, Redirect, Route, withRouter} from "react-router-dom";
 import DialogsContainer from "./components/Dialogs/DialogsContainer";
 import {connect} from "react-redux";
 import UsersContainer from "./components/Users/UsersContainer";
@@ -30,13 +30,14 @@ class App extends React.Component<mapDispatchToPropsType & mapStateToPropsType> 
     componentDidMount() {
         this.props.initializeAppTC()
     }
+
     render() {
         if (!this.props.initialized) {
             return <Preloader/>
         }
 
         return (
-            <BrowserRouter>
+            <HashRouter>
                 <div className="app-wrapper">
                     <HeaderContainer/>
                     <Navbar/>
@@ -53,7 +54,7 @@ class App extends React.Component<mapDispatchToPropsType & mapStateToPropsType> 
                         </Suspense>
                     </div>
                 </div>
-            </BrowserRouter>
+            </HashRouter>
         );
     }
 }
