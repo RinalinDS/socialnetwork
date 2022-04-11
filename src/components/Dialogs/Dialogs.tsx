@@ -2,10 +2,11 @@ import React from 'react';
 import s from './Dialog.module.css'
 import {DialogItems} from "./DialogItems/DialogItems";
 import {Message} from "./Message/Message";
-import {dialogsType, messageType} from "../../App";
+
 import {Field, InjectedFormProps, reduxForm} from "redux-form";
 import {maxLengthCreator, required} from "../../validators/validators";
 import {Textarea} from "../../common/FormsControls/FormsControl";
+import {dialogsType, messageType} from '../../Types/AppTypes';
 
 const maxLength50 = maxLengthCreator(50)
 
@@ -20,7 +21,7 @@ type FormDataType = {
 }
 
 export const Dialogs = (props: propsType) => {
-debugger
+
 
     let messageElements = props.messages.map(m => <Message message={m.message} myMessage={m.myMessage}/>)
     let dialogsElements = props.dialogs.map(m => <DialogItems name={m.name} id={m.id} avatar={m.avatar}/>)

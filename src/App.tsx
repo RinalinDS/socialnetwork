@@ -1,10 +1,7 @@
-import React from 'react';
+import React, {Suspense} from 'react';
 import './App.css';
 import {Navbar} from "./components/Navbar/Navbar";
 import {BrowserRouter, Redirect, Route, withRouter} from "react-router-dom";
-import Settings from "./components/Settings/Settings";
-import {Music} from "./components/Music/Music";
-import {News} from "./components/News/News";
 import DialogsContainer from "./components/Dialogs/DialogsContainer";
 import {connect} from "react-redux";
 import UsersContainer from "./components/Users/UsersContainer";
@@ -16,38 +13,9 @@ import {initializeAppTC} from "./redux/appReducer";
 import {AppRootStateType} from "./redux/store";
 import {Preloader} from "./common/Preloader/Preloader";
 
-
-export type postsType = {
-    id: number
-    message: string
-    likesCount: number
-}
-export type dialogsType = {
-    id: number
-    name: string
-    avatar: string
-}
-export type messageType = {
-    id: number
-    message: string
-    myMessage: boolean
-}
-export type FriendsType = {
-    id: number
-    name: string
-}
-export type stateType = {
-    profilePage: {
-        posts: Array<postsType>
-        newPostText: string
-    }
-    dialogsPage: {
-        dialogs: Array<dialogsType>
-        messages: Array<messageType>
-        newMessageText: string
-    }
-    friends: Array<FriendsType>
-}
+const News = React.lazy(() => import("./components/Music/Music"));
+const Music = React.lazy(() => import("./components/News/News"));
+const Settings = React.lazy(() => import("./components/Settings/Settings"));
 
 
 type mapDispatchToPropsType = {
@@ -59,11 +27,9 @@ type mapStateToPropsType = {
 }
 
 class App extends React.Component<mapDispatchToPropsType & mapStateToPropsType> {
-
     componentDidMount() {
         this.props.initializeAppTC()
     }
-
     render() {
         if (!this.props.initialized) {
             return <Preloader/>
@@ -75,15 +41,16 @@ class App extends React.Component<mapDispatchToPropsType & mapStateToPropsType> 
                     <HeaderContainer/>
                     <Navbar/>
                     <div className={'maincontent'}>
-
-                        <Redirect from="/" to='/profile/' />
+                        <Redirect from="/" to='/profile/'/>
                         <Route path='/profile/:userId?' render={() => <ProfileContainer/>}/>
                         <Route path='/dialogs' render={() => <DialogsContainer/>}/>
                         <Route path='/users' render={() => <UsersContainer/>}/>
-                        <Route path='/news' render={() => <News/>}/>
-                        <Route path='/music' render={() => <Music/>}/>
-                        <Route path='/settings' render={() => <Settings/>}/>
-                        <Route path='/login' render={() => <Login/>}/>
+                        <Suspense fallback={<Preloader/>}>
+                            <Route path='/news' render={() => <News/>}/>
+                            <Route path='/music' render={() => <Music/>}/>
+                            <Route path='/settings' render={() => <Settings/>}/>
+                            <Route path='/login' render={() => <Login/>}/>
+                        </Suspense>
                     </div>
                 </div>
             </BrowserRouter>

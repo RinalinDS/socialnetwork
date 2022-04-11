@@ -1,4 +1,4 @@
-import {FriendsType} from "../App";
+import {FriendsType} from '../Types/AppTypes';
 
 
 type sidebarReducerStateType = Array<FriendsType>

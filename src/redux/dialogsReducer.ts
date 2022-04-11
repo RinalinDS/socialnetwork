@@ -1,4 +1,4 @@
-import {dialogsType, messageType} from "../App";
+import {dialogsType, messageType} from '../Types/AppTypes';
 
 // consts for types
 const ADD_MESSAGE = "dialogs/ADD-MESSAGE"

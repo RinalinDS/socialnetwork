@@ -1,6 +1,6 @@
-import {postsType} from "../App";
 import {Dispatch} from "redux";
 import {profileAPI} from "../api/API";
+import {postsType} from '../Types/AppTypes';
 
 const ADD_POST = "ADD-POST"
 const ADD_LIKE_COUNT = "ADD-LIKE-COUNT"

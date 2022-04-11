@@ -2,9 +2,10 @@ import React from "react";
 import {NavLink} from "react-router-dom";
 import s from "./Navbar.module.css"
 import {Friends} from "./Friends/Friends";
-import {FriendsType} from "../../App";
+
 import {useSelector} from "react-redux";
 import {AppRootStateType} from "../../redux/store";
+import {FriendsType} from '../../Types/AppTypes';
 
 
 
