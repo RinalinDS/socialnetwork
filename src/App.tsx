@@ -33,7 +33,9 @@ class App extends React.Component<mapDispatchToPropsType & mapStateToPropsType> 
 
     render() {
         if (!this.props.initialized) {
-            return <Preloader/>
+            return <div style={{position: 'fixed', top: '30%', textAlign: 'center', width: '100%'}}>
+                <Preloader/>
+            </div>
         }
 
         return (
@@ -41,7 +43,7 @@ class App extends React.Component<mapDispatchToPropsType & mapStateToPropsType> 
                 <div className="app-wrapper">
                     <HeaderContainer/>
                     <Navbar/>
-                    <div className={'maincontent'}>
+                    <div className='maincontent'>
                         <Redirect from="/" to='/profile/'/>
                         <Route path='/profile/:userId?' render={() => <ProfileContainer/>}/>
                         <Route path='/dialogs' render={() => <DialogsContainer/>}/>

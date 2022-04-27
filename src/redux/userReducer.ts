@@ -99,21 +99,29 @@ export const followInProgress = (id: number, isFetching: boolean) => {
 // THUNK CREATORS
 
 export const requestUsers = (currentPage: number, pageSize: number) => async (dispatch: Dispatch<userReducerActionType>) => {
-    dispatch(toggleIsFetching(true))
-    dispatch(setCurrentPage(currentPage))
-    const data = await usersAPI.getUsers(currentPage, pageSize)
-    dispatch(toggleIsFetching(false))
-    dispatch(setUsers(data.items))
-    dispatch(setTotalUsersCount(data.totalCount))
+    try {
+        dispatch(toggleIsFetching(true))
+        dispatch(setCurrentPage(currentPage))
+        const data = await usersAPI.getUsers(currentPage, pageSize)
+        dispatch(toggleIsFetching(false))
+        dispatch(setUsers(data.items))
+        dispatch(setTotalUsersCount(data.totalCount))
+    } catch (e) {
+        console.warn(e)
+    }
 
 }
 const followUnfollowFlow = async (dispatch: Dispatch, userID: number, apiMethod: any, actionCreator: (userID: number) => userReducerActionType) => {
-    dispatch(followInProgress(userID, true))
-    const data = await apiMethod(userID)
-    if (data.resultCode === 0) {
-        dispatch(actionCreator(userID))
+    try {
+        dispatch(followInProgress(userID, true))
+        const data = await apiMethod(userID)
+        if (data.resultCode === 0) {
+            dispatch(actionCreator(userID))
+        }
+        dispatch(followInProgress(userID, false))
+    } catch(e) {
+        console.warn(e)
     }
-    dispatch(followInProgress(userID, false))
 }
 
 export const unfollowUser = (userID: number) => (dispatch: Dispatch) => {

@@ -29,7 +29,6 @@ export class Status extends Component<propsType, stateType> {
     }
 
     componentDidUpdate(prevProps: Readonly<propsType>, prevState: Readonly<stateType>) {
-
         if(prevProps.status !== this.props.status) {
             this.setState({
                 status: this.props.status

@@ -5,7 +5,7 @@ import {AppRootStateType} from "../../redux/store";
 import {
     getUserProfileThunkCreator,
     getUserStatusThunkCreator,
-    profileType,
+    profileType, savePhotoTC,
     updateUserStatusThunkCreator
 } from "../../redux/profileReducer";
 import {RouteComponentProps, withRouter} from "react-router-dom";
@@ -21,8 +21,7 @@ type withRouterPropsType = RouteComponentProps<PathParamsType> & propsType
 
 class ProfileContainer extends React.Component<withRouterPropsType> {
 
-    componentDidMount() {
-
+    checkForUpdates() {
         let userId = this.props.match.params.userId
         if (!userId) {
             userId = this.props.authUserID
@@ -32,14 +31,23 @@ class ProfileContainer extends React.Component<withRouterPropsType> {
         }
         this.props.getUserProfile(userId)
         this.props.getUserStatus(userId)
+    }
+
+    componentDidMount() {
+       this.checkForUpdates()
 
     }
 
-    render() {
+    componentDidUpdate(prevProps: Readonly<withRouterPropsType>, prevState: Readonly<{}>, snapshot?: any) {
+        if (prevProps.match.params.userId !== this.props.match.params.userId || !this.props.match.params.userId) {
+            this.checkForUpdates()
+        }
+    }
 
+    render() {
         return (
             <Profile {...this.props} profile={this.props.profile} status={this.props.status}
-                     updateUserStatus={this.props.updateUserStatus}/>
+                     updateUserStatus={this.props.updateUserStatus} isOwner={!this.props.match.params.userId} savePhoto={this.props.savePhoto}/>
         )
     }
 }
@@ -54,6 +62,7 @@ type mapDispatchToPropsType = {
     getUserProfile: (userId: string) => void
     getUserStatus: (userId: string) => void
     updateUserStatus: (status: string) => void
+    savePhoto: (file: any) => void
 }
 
 const mapStateToProps = (state: AppRootStateType) => {
@@ -69,7 +78,8 @@ export default compose<React.ComponentType>(
     connect(mapStateToProps, {
         getUserProfile: getUserProfileThunkCreator,
         getUserStatus: getUserStatusThunkCreator,
-        updateUserStatus: updateUserStatusThunkCreator
+        updateUserStatus: updateUserStatusThunkCreator,
+        savePhoto: savePhotoTC
     }),
     withRouter,
 )(ProfileContainer)

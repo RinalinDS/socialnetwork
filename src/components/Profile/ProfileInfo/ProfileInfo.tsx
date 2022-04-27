@@ -1,4 +1,4 @@
-import React from "react";
+import React, {ChangeEvent, FC} from "react";
 import s from './ProfileInfo.module.css'
 import {profileType} from "../../../redux/profileReducer";
 import {Preloader} from "../../../common/Preloader/Preloader";
@@ -7,26 +7,29 @@ import {ProfileStatus} from './ProfileStatus';
 
 
 type ProfileInfoPropsType = {
-    profile: profileType
-    status: string
-    updateUserStatus: (userId: string) => void
+  profile: profileType
+  status: string
+  updateUserStatus: (userId: string) => void
+  isOwner: boolean
+  savePhoto: (file: any) => void
 }
 
-export const ProfileInfo = (props: ProfileInfoPropsType) => {
-    if (!props.profile.photos) {
-        return <Preloader/>
-    }
-    return (
-        <div>
-            {/*<div>
-                <img src="https://oceanservice.noaa.gov/facts/sea.jpg" alt="seas"/>
-            </div>*/}
-            <div className={s.block}>
-                <img src={props.profile.photos.small ? props.profile.photos.small : preloader} alt={'preloader'}/>
-                <div> {props.profile.fullName} </div>
-                <div> {props.profile.contacts.github}</div>
-                <ProfileStatus status={props.status} updateUserStatus={props.updateUserStatus}/>
-            </div>
-        </div>
-    )
+export const ProfileInfo: FC<ProfileInfoPropsType> = ({profile, status, updateUserStatus, isOwner, savePhoto}) => {
+  const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    savePhoto(e.target.files && e.target.files[0])
+  }
+  if (!profile.photos) {
+    return <Preloader/>
+  }
+  return (
+    <div>
+      <div className={s.block}>
+        <img src={profile.photos.large ? profile.photos.large : preloader} alt={'preloader'}/>
+        {isOwner && <input type='file' onChange={onChangeHandler}/>}
+        <div> {profile.fullName} </div>
+        <div> {profile.contacts.github}</div>
+        <ProfileStatus status={status} updateUserStatus={updateUserStatus}/>
+      </div>
+    </div>
+  )
 }
