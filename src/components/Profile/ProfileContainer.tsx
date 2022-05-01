@@ -30,12 +30,14 @@ class ProfileContainer extends React.Component<withRouterPropsType> {
         this.props.history.push('/login')
       }
     }
-    this.props.getUserProfile(userId)
-    this.props.getUserStatus(userId)
+    if (userId) {
+      this.props.getUserProfile(userId)
+      this.props.getUserStatus(userId)
+    }
   }
 
   componentDidMount() {
-      this.checkForUpdates()
+    this.checkForUpdates()
   }
 
   componentDidUpdate(prevProps: Readonly<withRouterPropsType>, prevState: Readonly<{}>, snapshot?: any) {
