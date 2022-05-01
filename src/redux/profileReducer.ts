@@ -2,6 +2,7 @@ import {Dispatch} from "redux";
 import {profileAPI} from "../api/API";
 import {postsType} from '../Types/AppTypes';
 import {toggleIsFetching} from './userReducer';
+import {AppRootStateType} from './store';
 
 const ADD_POST = "profile/ADD-POST"
 const ADD_LIKE_COUNT = "profile/ADD-LIKE-COUNT"
@@ -59,7 +60,7 @@ export const savePhotoSuccess = (photos: any) => ({type: SAVE_PHOTO_SUCCESS, pho
 
 
 // Thunk
-export const getUserProfileThunkCreator = (userId: string) => async (dispatch: Dispatch) => {
+export const getUserProfileThunkCreator = (userId: number) => async (dispatch: Dispatch) => {
   try {
     dispatch(toggleIsFetching(true))
     const data = await profileAPI.setUserProfile(userId)
@@ -69,7 +70,7 @@ export const getUserProfileThunkCreator = (userId: string) => async (dispatch: D
     console.warn(e)
   }
 }
-export const getUserStatusThunkCreator = (userId: string) => async (dispatch: Dispatch) => {
+export const getUserStatusThunkCreator = (userId: number) => async (dispatch: Dispatch) => {
   try {
     dispatch(toggleIsFetching(true))
     const response = await profileAPI.getStatus(userId)
@@ -97,7 +98,7 @@ export const savePhotoTC = (photo: any) => async (dispatch: Dispatch) => {
     dispatch(toggleIsFetching(true))
     const res = await profileAPI.savePhoto(photo)
     if (res.data.resultCode === 0) {
-      debugger
+
       dispatch(savePhotoSuccess(res.data.data.photos))
     }
     dispatch(toggleIsFetching(false))
@@ -105,6 +106,25 @@ export const savePhotoTC = (photo: any) => async (dispatch: Dispatch) => {
     console.warn(e)
   }
 }
+
+export const updateProfileTC = (profile: profileType) => async (dispatch: Dispatch, getState: () => AppRootStateType) => {
+  try {
+    dispatch(toggleIsFetching(true))
+    const res = await profileAPI.updateProfile(profile)
+    console.log(res)
+    if (res.data.resultCode === 0) {
+      const userId = getState().auth.id
+      if (userId) {
+        // @ts-ignore
+        dispatch(getUserProfileThunkCreator(userId))
+      }
+    }
+    dispatch(toggleIsFetching(false))
+  } catch (e) {
+    console.warn(e)
+  }
+}
+
 
 //Types
 export type GeneralTypeForProfileReducer =
@@ -125,7 +145,8 @@ export type profileType = {
   lookingForAJob: boolean
   lookingForAJobDescription: string
   fullName: string
-  contacts: {
+  aboutMe: string
+  contacts?: {
     github: string
     vk: string
     facebook: string
@@ -135,7 +156,7 @@ export type profileType = {
     youtube: string
     mainLink: string
   }
-  photos: {
+  photos?: {
     small: string | null
     large: string | null
   }

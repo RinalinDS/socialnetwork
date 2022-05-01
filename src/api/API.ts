@@ -1,4 +1,5 @@
 import axios from "axios";
+import {profileType} from '../redux/profileReducer';
 
 
 const instance = axios.create({
@@ -45,11 +46,11 @@ export const authAPI = {
 }
 
 export const profileAPI = {
-  setUserProfile(userId: string) {
+  setUserProfile(userId: number) {
     return instance.get(`profile/${userId}`)
       .then(res => res.data)
   },
-  getStatus(userId: string) {
+  getStatus(userId: number) {
     return instance.get(`/profile/status/${userId}`)
   },
   updateStatus(status: string) {
@@ -63,5 +64,9 @@ export const profileAPI = {
         'Content-Type': 'multipart/form-data'
       }
     })
-  }
+
+  },
+  updateProfile(profile: profileType) {
+    return instance.put('/profile/', profile)
+  },
 }

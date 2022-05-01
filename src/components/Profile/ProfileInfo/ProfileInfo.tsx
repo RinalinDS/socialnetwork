@@ -1,9 +1,11 @@
-import React, {ChangeEvent, FC} from "react";
+import React, {ChangeEvent, FC, useState} from "react";
 import s from './ProfileInfo.module.css'
 import {profileType} from "../../../redux/profileReducer";
 import {Preloader} from "../../../common/Preloader/Preloader";
-import preloader from './../../../assets/images/preloader.gif'
-import {ProfileStatus} from './ProfileStatus';
+import {ProfileStatus} from './ProfileStatus/ProfileStatus';
+import {ProfileData} from './ProfileData';
+import preloader from '../../../assets/images/preloader.gif';
+import {ProfileUpdateForm} from './ProfileUpdateForm';
 
 
 type ProfileInfoPropsType = {
@@ -15,8 +17,12 @@ type ProfileInfoPropsType = {
 }
 
 export const ProfileInfo: FC<ProfileInfoPropsType> = ({profile, status, updateUserStatus, isOwner, savePhoto}) => {
+  const [edit, setEdit] = useState(false)
   const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     savePhoto(e.target.files && e.target.files[0])
+  }
+  const onClickHandler = () => {
+    setEdit(true)
   }
   if (!profile.photos) {
     return <Preloader/>
@@ -24,12 +30,17 @@ export const ProfileInfo: FC<ProfileInfoPropsType> = ({profile, status, updateUs
   return (
     <div>
       <div className={s.block}>
+        {isOwner && <div><input type='file' onChange={onChangeHandler}/></div>}
         <img src={profile.photos.large ? profile.photos.large : preloader} alt={'preloader'}/>
-        {isOwner && <input type='file' onChange={onChangeHandler}/>}
-        <div> {profile.fullName} </div>
-        <div> {profile.contacts.github}</div>
+
+        {edit ? <ProfileUpdateForm setEdit={setEdit} profile={profile}/> :
+          <ProfileData profile={profile} isOwner={isOwner}
+                       onClickHandler={onClickHandler}/>}
+
+
         <ProfileStatus status={status} updateUserStatus={updateUserStatus}/>
       </div>
     </div>
   )
 }
+
