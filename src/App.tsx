@@ -1,7 +1,7 @@
 import React, {Suspense} from 'react';
 import './App.css';
 import {Navbar} from "./components/Navbar/Navbar";
-import {HashRouter, Redirect, Route, withRouter} from "react-router-dom";
+import {Redirect, Route, withRouter} from "react-router-dom";
 import DialogsContainer from "./components/Dialogs/DialogsContainer";
 import {connect} from "react-redux";
 import UsersContainer from "./components/Users/UsersContainer";
@@ -39,7 +39,7 @@ class App extends React.PureComponent<mapDispatchToPropsType & mapStateToPropsTy
     }
 
     return (
-      <HashRouter>
+      <div style={{backgroundColor: 'rgba(164,192,192,0.4)'}}>
         <div className="app-wrapper">
           <HeaderContainer/>
           <Navbar/>
@@ -56,7 +56,7 @@ class App extends React.PureComponent<mapDispatchToPropsType & mapStateToPropsTy
             </Suspense>
           </div>
         </div>
-      </HashRouter>
+      </div>
     );
   }
 }

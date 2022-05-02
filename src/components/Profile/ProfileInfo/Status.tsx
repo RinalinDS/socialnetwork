@@ -15,12 +15,10 @@ export class Status extends Component<propsType, stateType> {
         status: this.props.status
     }
     activateEditMode = () => {
-
         this.setState({
             editMode: true
         })
     }
-
     deActivateEditMode() {
         this.setState({
             editMode: false
