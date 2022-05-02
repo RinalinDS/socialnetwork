@@ -54,7 +54,6 @@ const Login = (props: mapDispatchToPropsType & mapStateToPropsType) => {
   // Сюда придет форм дата благодаря вызову handleSubmit при нажатии на баттон автомат самбитится форма.
   // и сюда прилетает объект форм дата в котолром инфа со всех инпутов
   const onSubmit = (formData: FormDataType) => {
-    console.log(formData)
     props.login(formData.login, formData.password, formData.rememberMe, formData.captcha)
   }
   if (props.isAuth) {

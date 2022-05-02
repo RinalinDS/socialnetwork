@@ -98,7 +98,6 @@ export const getCaptchaUrl = (): AppThunk => {
   return async dispatch => {
     try {
       const response = await securityAPI.getCaptchaUrl()
-      console.log(response.data)
       dispatch(getCaptchaUrlSuccess(response.data.url))
     } catch (e) {
       console.warn(e)

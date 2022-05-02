@@ -111,7 +111,6 @@ export const updateProfileTC = (profile: profileType) => async (dispatch: Dispat
   try {
     dispatch(toggleIsFetching(true))
     const res = await profileAPI.updateProfile(profile)
-    console.log(res)
     if (res.data.resultCode === 0) {
       const userId = getState().auth.id
       if (userId) {
