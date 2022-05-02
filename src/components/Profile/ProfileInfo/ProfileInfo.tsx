@@ -30,7 +30,7 @@ export const ProfileInfo: FC<ProfileInfoPropsType> = ({profile, status, updateUs
   return (
     <div>
       <div className={s.block}>
-        {isOwner && <div><input type='file' onChange={onChangeHandler}/></div>}
+        {isOwner && <div style={{marginTop:'5px', marginBottom:'5px'}}><input type='file' onChange={onChangeHandler}/></div>}
         <img src={profile.photos.large ? profile.photos.large : preloader} alt={'preloader'}/>
 
         {edit ? <ProfileUpdateForm setEdit={setEdit} profile={profile}/> :

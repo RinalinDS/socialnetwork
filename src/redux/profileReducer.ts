@@ -25,7 +25,7 @@ export const profileReducer = (state: profileReducerStateType = initialState, ac
   switch (action.type) {
     case ADD_POST:
       let newPost: postsType = {id: 4, message: action.post, likesCount: 0}
-      return {...state, posts: [...state.posts, newPost]}
+      return {...state, posts: [newPost, ...state.posts]}
     case ADD_LIKE_COUNT:
       return {
         ...state,
@@ -63,8 +63,8 @@ export const savePhotoSuccess = (photos: any) => ({type: SAVE_PHOTO_SUCCESS, pho
 export const getUserProfileThunkCreator = (userId: number) => async (dispatch: Dispatch) => {
   try {
     dispatch(toggleIsFetching(true))
-    const data = await profileAPI.setUserProfile(userId)
-    dispatch(setUserProfileAC(data))
+    const response = await profileAPI.setUserProfile(userId)
+    dispatch(setUserProfileAC(response.data))
     dispatch(toggleIsFetching(false))
   } catch (e) {
     console.warn(e)

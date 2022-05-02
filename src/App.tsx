@@ -19,54 +19,54 @@ const Settings = React.lazy(() => import("./components/Settings/Settings"));
 
 
 type mapDispatchToPropsType = {
-    initializeAppTC: () => void
+  initializeAppTC: () => void
 }
 
 type mapStateToPropsType = {
-    initialized: boolean
+  initialized: boolean
 }
 
-class App extends React.Component<mapDispatchToPropsType & mapStateToPropsType> {
-    componentDidMount() {
-        this.props.initializeAppTC()
+class App extends React.PureComponent<mapDispatchToPropsType & mapStateToPropsType> {
+  componentDidMount() {
+    this.props.initializeAppTC()
+  }
+
+  render() {
+    if (!this.props.initialized) {
+      return <div style={{position: 'fixed', top: '30%', textAlign: 'center', width: '100%'}}>
+        <Preloader/>
+      </div>
     }
 
-    render() {
-        if (!this.props.initialized) {
-            return <div style={{position: 'fixed', top: '30%', textAlign: 'center', width: '100%'}}>
-                <Preloader/>
-            </div>
-        }
-
-        return (
-            <HashRouter>
-                <div className="app-wrapper">
-                    <HeaderContainer/>
-                    <Navbar/>
-                    <div className='maincontent'>
-                        <Redirect from="/" to='/profile/'/>
-                        <Route path='/profile/:userId?' render={() => <ProfileContainer/>}/>
-                        <Route path='/dialogs' render={() => <DialogsContainer/>}/>
-                        <Route path='/users' render={() => <UsersContainer/>}/>
-                        <Suspense fallback={<Preloader/>}>
-                            <Route path='/news' render={() => <News/>}/>
-                            <Route path='/music' render={() => <Music/>}/>
-                            <Route path='/settings' render={() => <Settings/>}/>
-                            <Route path='/login' render={() => <Login/>}/>
-                        </Suspense>
-                    </div>
-                </div>
-            </HashRouter>
-        );
-    }
+    return (
+      <HashRouter>
+        <div className="app-wrapper">
+          <HeaderContainer/>
+          <Navbar/>
+          <div className='maincontent'>
+            <Route exact path='/profile/:userId?' render={() => <ProfileContainer/>}/>
+            <Route path='/dialogs' render={() => <DialogsContainer/>}/>
+            <Route path='/users' render={() => <UsersContainer/>}/>
+            <Redirect from="/" to='/profile/'/>
+            <Suspense fallback={<Preloader/>}>
+              <Route path='/news' render={() => <News/>}/>
+              <Route path='/music' render={() => <Music/>}/>
+              <Route path='/settings' render={() => <Settings/>}/>
+              <Route path='/login' render={() => <Login/>}/>
+            </Suspense>
+          </div>
+        </div>
+      </HashRouter>
+    );
+  }
 }
 
 const mapStateToProps = (state: AppRootStateType) => {
-    return {
-        initialized: state.app.initialized
-    }
+  return {
+    initialized: state.app.initialized
+  }
 }
 export default compose<React.ComponentType>(
-    connect(mapStateToProps, {initializeAppTC}),
-    withRouter)(App)
+  connect(mapStateToProps, {initializeAppTC}),
+  withRouter)(App)
 

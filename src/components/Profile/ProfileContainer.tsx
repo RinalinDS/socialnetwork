@@ -20,7 +20,7 @@ type PathParamsType = {
 type withRouterPropsType = RouteComponentProps<PathParamsType> & propsType
 
 
-class ProfileContainer extends React.Component<withRouterPropsType> {
+class ProfileContainer extends React.PureComponent<withRouterPropsType> {
 
   checkForUpdates() {
     let userId = this.props.match.params.userId
@@ -30,10 +30,10 @@ class ProfileContainer extends React.Component<withRouterPropsType> {
         this.props.history.push('/login')
       }
     }
-    if (userId) {
+
       this.props.getUserProfile(userId)
       this.props.getUserStatus(userId)
-    }
+
   }
 
   componentDidMount() {
@@ -41,7 +41,7 @@ class ProfileContainer extends React.Component<withRouterPropsType> {
   }
 
   componentDidUpdate(prevProps: Readonly<withRouterPropsType>, prevState: Readonly<{}>, snapshot?: any) {
-    if (prevProps.match.params.userId !== this.props.match.params.userId || !this.props.match.params.userId) {
+    if (this.props.match.params.userId !== prevProps.match.params.userId) {
       this.checkForUpdates()
     }
   }

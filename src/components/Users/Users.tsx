@@ -25,7 +25,7 @@ export const Users = ({totalUsersCount, pageSize, currentPage, onPageChanged, ..
                        onPageChanged={onPageChanged}/>
 
             <p>USERS :</p>
-            {props.users.map(m => <User user={m} followUser={props.followUser} unfollowUser={props.unfollowUser}
+            {props.users.map(m => <User key={m.id} user={m} followUser={props.followUser} unfollowUser={props.unfollowUser}
                                         isFollowingInProgress={props.isFollowingInProgress}
                                         followInProgress={props.followInProgress}/>)}
 

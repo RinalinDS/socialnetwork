@@ -17,9 +17,11 @@ export const Post = function (props : PropsType) {
 
     return (
         <div className={s.item}>
+          <div className={s.message}>
             <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0qh8eESLXwl36bofkdzT9g-kp5cUSoezKWaced8kqfun3E4KqFjv_sL4g9xlCagSUZWU&usqp=CAU" alt={' of seas'}/>
-            {props.message}
-            <div>
+            <span style={{marginLeft: '5px'}}>{props.message}</span>
+        </div>
+            <div style={{display: 'flex', flexDirection:'row', justifyContent: 'flex-end'}}>
                <span onClick={onClickAddLikeHandler}>Likes : {props.likesCount} </span>
             </div>
         </div>

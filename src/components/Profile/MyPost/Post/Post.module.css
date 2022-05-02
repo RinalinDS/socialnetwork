@@ -1,10 +1,21 @@
-
 .item {
     color : yellow;
+    padding: 5px;
+    border: white 1px solid;
+    border-radius: 15px;
+    margin-top: 2px;
+    background-color: green;
+
 }
 
 .item img {
     width: 50px;
     height: 50px;
     border-radius: 30px;
+}
+
+.message {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 }
