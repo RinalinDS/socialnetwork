@@ -11,7 +11,7 @@ import {compose} from "redux";
 import {initializeAppTC} from "./redux/appReducer";
 import {AppRootStateType} from "./redux/store";
 import {Preloader} from "./common/Preloader/Preloader";
-import {lazyLoader} from './lazyload';
+import {lazyLoader} from './hoc/lazyload';
 import Login from './components/Login/Login';
 
 const News = React.lazy(() => import("./components/News/News"));
@@ -46,7 +46,7 @@ class App extends React.PureComponent<mapDispatchToPropsType & mapStateToPropsTy
 
 
     return (
-      <div style={{backgroundColor: 'rgba(164,192,192,0.4)'}}>
+      <div style={{backgroundColor: 'rgba(164,192,192,0.4)' }}>
         <div className="app-wrapper">
           <HeaderContainer/>
           <Navbar/>
@@ -60,7 +60,7 @@ class App extends React.PureComponent<mapDispatchToPropsType & mapStateToPropsTy
               <Route path='/settings' render={() => <SuspendedSettings/>}/>
               <Route path='/login' render={() => <Login/>}/>
               <Redirect exact from="/" to='/profile/'/>
-              <Route path='*' render={() => <div>404</div>}/>
+              <Route path='*' render={() => <div>Someone fucked up it's 404 page</div>}/>
             </Switch>
           </div>
         </div>

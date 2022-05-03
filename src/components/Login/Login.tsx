@@ -61,10 +61,18 @@ const Login = (props: mapDispatchToPropsType & mapStateToPropsType) => {
   }
 
   return (
-    <div>
+    <div style={{display:'flex', flexDirection:'column', justifyContent:'center', alignItems:'center', margin:'5px', padding:'5px'}}>
       <h1>
         Welcome to Login page
       </h1>
+      <div>To log in get registered
+        <a href={'https://social-network.samuraijs.com/'}
+           target={'_blank'}> here
+        </a>
+      </div>
+      <div>or use common test account credentials:</div>
+      <div><b>Email: free@samuraijs.com</b></div>
+      <div style={{marginBottom:'5px'}}><b>Password: free</b></div>
       <ReduxLoginForm onSubmit={onSubmit}/>
     </div>
 

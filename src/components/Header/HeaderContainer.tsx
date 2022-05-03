@@ -18,9 +18,10 @@ type HeaderPropsType = mapDispatchToPropsType & mapStateToPropsType
 
 
 class HeaderContainer extends Component<HeaderPropsType> {
-    componentDidMount() {
-        this.props.setAuthUserData()
-    }
+    // componentDidMount() {
+    //     this.props.setAuthUserData()
+    // }
+    // Это штука дублировала ми запрос , пока убираю
 
     render() {
         return (
