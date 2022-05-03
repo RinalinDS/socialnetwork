@@ -1,21 +1,27 @@
-import React, {Suspense} from 'react';
+import React from 'react';
 import './App.css';
 import {Navbar} from "./components/Navbar/Navbar";
-import {Redirect, Route, withRouter} from "react-router-dom";
+import {Redirect, Route, Switch, withRouter} from "react-router-dom";
 import DialogsContainer from "./components/Dialogs/DialogsContainer";
 import {connect} from "react-redux";
 import UsersContainer from "./components/Users/UsersContainer";
 import ProfileContainer from "./components/Profile/ProfileContainer";
 import HeaderContainer from "./components/Header/HeaderContainer";
-import Login from "./components/Login/Login";
 import {compose} from "redux";
 import {initializeAppTC} from "./redux/appReducer";
 import {AppRootStateType} from "./redux/store";
 import {Preloader} from "./common/Preloader/Preloader";
+import {lazyLoader} from './lazyload';
+import Login from './components/Login/Login';
 
-const News = React.lazy(() => import("./components/Music/Music"));
-const Music = React.lazy(() => import("./components/News/News"));
+const News = React.lazy(() => import("./components/News/News"));
+const Music = React.lazy(() => import("./components/Music/Music"));
 const Settings = React.lazy(() => import("./components/Settings/Settings"));
+
+
+const SuspendedNews = lazyLoader(News)
+const SuspendedMusic = lazyLoader(Music)
+const SuspendedSettings = lazyLoader(Settings)
 
 
 type mapDispatchToPropsType = {
@@ -38,22 +44,24 @@ class App extends React.PureComponent<mapDispatchToPropsType & mapStateToPropsTy
       </div>
     }
 
+
     return (
       <div style={{backgroundColor: 'rgba(164,192,192,0.4)'}}>
         <div className="app-wrapper">
           <HeaderContainer/>
           <Navbar/>
           <div className='maincontent'>
-            <Route exact path='/profile/:userId?' render={() => <ProfileContainer/>}/>
-            <Route path='/dialogs' render={() => <DialogsContainer/>}/>
-            <Route path='/users' render={() => <UsersContainer/>}/>
-            <Redirect from="/" to='/profile/'/>
-            <Suspense fallback={<Preloader/>}>
-              <Route path='/news' render={() => <News/>}/>
-              <Route path='/music' render={() => <Music/>}/>
-              <Route path='/settings' render={() => <Settings/>}/>
+            <Switch>
+              <Route exact path='/profile/:userId?' render={() => <ProfileContainer/>}/>
+              <Route path='/dialogs' render={() => <DialogsContainer/>}/>
+              <Route path='/users' render={() => <UsersContainer/>}/>
+              <Route path='/news' render={() => <SuspendedNews/>}/>
+              <Route path='/music' render={() => <SuspendedMusic/>}/>
+              <Route path='/settings' render={() => <SuspendedSettings/>}/>
               <Route path='/login' render={() => <Login/>}/>
-            </Suspense>
+              <Redirect exact from="/" to='/profile/'/>
+              <Route path='*' render={() => <div>404</div>}/>
+            </Switch>
           </div>
         </div>
       </div>

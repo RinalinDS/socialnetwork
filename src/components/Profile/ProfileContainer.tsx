@@ -11,6 +11,7 @@ import {
 } from "../../redux/profileReducer";
 import {RouteComponentProps, withRouter} from "react-router-dom";
 import {compose} from "redux";
+import {withAuthRedirect} from '../../hoc/withAuthRedirect';
 
 type propsType = mapStateToPropsType & mapDispatchToPropsType
 
@@ -20,10 +21,10 @@ type PathParamsType = {
 type withRouterPropsType = RouteComponentProps<PathParamsType> & propsType
 
 
-class ProfileContainer extends React.PureComponent<withRouterPropsType> {
+class ProfileContainer extends React.Component<withRouterPropsType> {
 
   checkForUpdates() {
-    let userId = this.props.match.params.userId
+    let userId = +this.props.match.params.userId
     if (!userId) {
       userId = this.props.authUserID
       if (!userId) {
@@ -40,7 +41,7 @@ class ProfileContainer extends React.PureComponent<withRouterPropsType> {
     this.checkForUpdates()
   }
 
-  componentDidUpdate(prevProps: Readonly<withRouterPropsType>, prevState: Readonly<{}>, snapshot?: any) {
+  componentDidUpdate(prevProps: withRouterPropsType) {
     if (this.props.match.params.userId !== prevProps.match.params.userId) {
       this.checkForUpdates()
     }
@@ -55,15 +56,16 @@ class ProfileContainer extends React.PureComponent<withRouterPropsType> {
   }
 }
 
-type mapStateToPropsType = {
+
+type  mapStateToPropsType = {
   profile: profileType
   status: string
-  authUserID: string
+  authUserID: number
 
 }
-type mapDispatchToPropsType = {
-  getUserProfile: (userId: string) => void
-  getUserStatus: (userId: string) => void
+type  mapDispatchToPropsType = {
+  getUserProfile: (userId: number) => void
+  getUserStatus: (userId: number) => void
   updateUserStatus: (status: string) => void
   savePhoto: (file: any) => void
 }
@@ -84,6 +86,6 @@ export default compose<React.ComponentType>(
     updateUserStatus: updateUserStatusThunkCreator,
     savePhoto: savePhotoTC
   }),
-  withRouter,
+  withRouter, withAuthRedirect
 )(ProfileContainer)
 
