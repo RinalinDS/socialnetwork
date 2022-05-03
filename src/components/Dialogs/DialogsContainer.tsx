@@ -9,10 +9,8 @@ import React from "react";
 
 const mapStateToProps = (state: AppRootStateType) => {
     return {
-
         dialogs: state.dialogsPage.dialogs,
         messages: state.dialogsPage.messages,
-
     }
 }
 
