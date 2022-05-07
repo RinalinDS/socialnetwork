@@ -1,6 +1,6 @@
 .header {
     grid-area: h;
-    background-color: aqua;
+    background-color: navajowhite;
 }
 
 .header img {
@@ -9,5 +9,12 @@
 
 .loginBlock {
     float: right;
+    color: black;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.nav_link {
+    text-decoration: none;
     color: white;
 }

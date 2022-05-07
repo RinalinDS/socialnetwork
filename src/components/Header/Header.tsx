@@ -1,4 +1,4 @@
-import React from "react";
+import React, {FC} from "react";
 import {NavLink} from "react-router-dom";
 import s from "./Header.module.css"
 
@@ -10,18 +10,17 @@ type propsType = {
   logout: () => void
 }
 
-export const Header = function (props: propsType) {
+export const Header: FC<propsType> = ({isAuth, login, logout}) => {
   return (
     <header className={s.header}>
       <img src={headerImgURL} alt="seas"/>
       <div className={s.loginBlock}>
-        {props.isAuth ? <div><span>{props.login}</span>
+        {isAuth ? <div><span>{login}</span>
             <div>
-              <button onClick={props.logout}> Logout</button>
+              <button onClick={logout}> Logout</button>
             </div>
           </div>
-          : <NavLink to={'/login'}>Login</NavLink>}
-
+          : <NavLink className={s.nav_link} to={'/login'}>Login</NavLink>}
       </div>
     </header>
   )
