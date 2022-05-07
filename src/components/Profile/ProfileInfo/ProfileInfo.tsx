@@ -15,6 +15,7 @@ type ProfileInfoPropsType = {
   isOwner: boolean
   savePhoto: (file: any) => void
 }
+// file: File | null
 
 export const ProfileInfo: FC<ProfileInfoPropsType> = ({profile, status, updateUserStatus, isOwner, savePhoto}) => {
   const [edit, setEdit] = useState(false)
@@ -30,8 +31,9 @@ export const ProfileInfo: FC<ProfileInfoPropsType> = ({profile, status, updateUs
   return (
     <div>
       <div className={s.block}>
-        {isOwner && <div style={{marginTop:'5px', marginBottom:'5px'}}><input type='file' onChange={onChangeHandler}/></div>}
-        <img src={profile.photos.large ? profile.photos.large : preloader} alt={'preloader'}/>
+        {isOwner &&
+          <div style={{marginTop: '5px', marginBottom: '5px'}}><input type='file' onChange={onChangeHandler}/></div>}
+        <img src={profile.photos.large || preloader} alt={'preloader'}/>
 
         {edit ? <ProfileUpdateForm setEdit={setEdit} profile={profile}/> :
           <ProfileData profile={profile} isOwner={isOwner}

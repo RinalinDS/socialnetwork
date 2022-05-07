@@ -1,10 +1,9 @@
-import React from "react";
+import React, {FC} from "react";
 import {ProfileInfo} from "./ProfileInfo/ProfileInfo";
 import {MyPostContainer} from "./MyPost/MyPostContainer";
 import {profileType} from "../../redux/profileReducer";
 
 type propsType = {
-  children?: any
   profile: profileType
   status: string
   updateUserStatus: (userId: string) => void
@@ -12,10 +11,11 @@ type propsType = {
   savePhoto: (file: any) => void
 }
 
-export const Profile = function (props: propsType) {
+export const Profile: FC<propsType> = ({profile, status, updateUserStatus, isOwner, savePhoto}) => {
   return (
     <div>
-      <ProfileInfo profile={props.profile} status={props.status} updateUserStatus={props.updateUserStatus} isOwner={props.isOwner} savePhoto={props.savePhoto}/>
+      <ProfileInfo profile={profile} status={status} updateUserStatus={updateUserStatus} isOwner={isOwner}
+                   savePhoto={savePhoto}/>
       <MyPostContainer/>
     </div>
   )

@@ -20,12 +20,12 @@ type FormDataType = {
 const LoginForm: React.FC<InjectedFormProps<FormDataType>> = (props) => {
   const captchaUrl = useSelector<AppRootStateType, string>(state => state.auth.captchaUrl)
   /*
-        handle sumbit выполняет 3 действия : 1). e.preventdefault чтобы не перезагружать страницу  при сабмите
+        handle sumbit выполняет 3 действия :
+        1). e.preventdefault чтобы не перезагружать страницу  при сабмите
         2). собирает все данные с форм в один объект
         3). вызывает функцию переданную с родительской компоненты ОнСабмит и засовывает в нее этот объект*/
   return (
     <form onSubmit={props.handleSubmit}>
-
       <div>
         <Field validate={[required]} placeholder={'Login'} component={Input} name={'login'}/>
       </div>
@@ -43,16 +43,14 @@ const LoginForm: React.FC<InjectedFormProps<FormDataType>> = (props) => {
       {props.error && <div>
         <span className={styles.submitError}>{props.error}</span></div>}
     </form>
-
   );
 };
 
 const ReduxLoginForm = reduxForm<FormDataType>({form: 'Login'})(LoginForm)
 
 const Login = (props: mapDispatchToPropsType & mapStateToPropsType) => {
-
   // Сюда придет форм дата благодаря вызову handleSubmit при нажатии на баттон автомат самбитится форма.
-  // и сюда прилетает объект форм дата в котолром инфа со всех инпутов
+  // и сюда прилетает объект форм дата в котором инфа со всех инпутов
   const onSubmit = (formData: FormDataType) => {
     props.login(formData.login, formData.password, formData.rememberMe, formData.captcha)
   }

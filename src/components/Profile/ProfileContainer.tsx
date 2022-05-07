@@ -13,17 +13,12 @@ import {RouteComponentProps, withRouter} from "react-router-dom";
 import {compose} from "redux";
 import {withAuthRedirect} from '../../hoc/withAuthRedirect';
 
-type propsType = mapStateToPropsType & mapDispatchToPropsType
 
-type PathParamsType = {
-  userId: string
-}
-type withRouterPropsType = RouteComponentProps<PathParamsType> & propsType
 
 
 class ProfileContainer extends React.Component<withRouterPropsType> {
 
-  checkForUpdates() {
+  refreshProfile() {
     let userId = +this.props.match.params.userId
     if (!userId) {
       userId = this.props.authUserID
@@ -31,19 +26,18 @@ class ProfileContainer extends React.Component<withRouterPropsType> {
         this.props.history.push('/login')
       }
     }
-
-      this.props.getUserProfile(userId)
-      this.props.getUserStatus(userId)
+    this.props.getUserProfile(userId)
+    this.props.getUserStatus(userId)
 
   }
 
   componentDidMount() {
-    this.checkForUpdates()
+    this.refreshProfile()
   }
 
   componentDidUpdate(prevProps: withRouterPropsType) {
     if (this.props.match.params.userId !== prevProps.match.params.userId) {
-      this.checkForUpdates()
+      this.refreshProfile()
     }
   }
 
@@ -56,6 +50,12 @@ class ProfileContainer extends React.Component<withRouterPropsType> {
   }
 }
 
+
+type propsType = mapStateToPropsType & mapDispatchToPropsType
+type PathParamsType = {
+  userId: string
+}
+type withRouterPropsType = RouteComponentProps<PathParamsType> & propsType
 
 type  mapStateToPropsType = {
   profile: profileType

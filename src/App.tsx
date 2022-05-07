@@ -50,7 +50,7 @@ class App extends React.PureComponent<mapDispatchToPropsType & mapStateToPropsTy
         <div className="app-wrapper">
           <HeaderContainer/>
           <Navbar/>
-          <div className='maincontent'>
+          <div className='main_content'>
             <Switch>
               <Route exact path='/profile/:userId?' render={() => <ProfileContainer/>}/>
               <Route path='/dialogs' render={() => <DialogsContainer/>}/>
