@@ -8,7 +8,7 @@ type propsType = {
   status: string
   updateUserStatus: (userId: string) => void
   isOwner: boolean
-  savePhoto: (file: any) => void
+  savePhoto: (file: File) => void
 }
 
 export const Profile: FC<propsType> = ({profile, status, updateUserStatus, isOwner, savePhoto}) => {

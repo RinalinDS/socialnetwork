@@ -7,20 +7,21 @@ import {ProfileData} from './ProfileData';
 import preloader from '../../../assets/images/preloader.gif';
 import {ProfileUpdateForm} from './ProfileUpdateForm';
 
-
 type ProfileInfoPropsType = {
   profile: profileType
   status: string
   updateUserStatus: (userId: string) => void
   isOwner: boolean
-  savePhoto: (file: any) => void
+  savePhoto: (file: File) => void
 }
-// file: File | null
+
 
 export const ProfileInfo: FC<ProfileInfoPropsType> = ({profile, status, updateUserStatus, isOwner, savePhoto}) => {
   const [edit, setEdit] = useState(false)
   const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    savePhoto(e.target.files && e.target.files[0])
+    if (e.target.files) {
+      savePhoto(e.target.files[0])
+    }
   }
   const onClickHandler = () => {
     setEdit(true)
